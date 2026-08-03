@@ -10,7 +10,9 @@ import {
   X,
   Leaf,
   ChevronRight,
+  LogOut,
 } from 'lucide-react';
+import { useStore } from '@/lib/store';
 
 const navLinks = [
   { label: 'Home', href: '#home' },
@@ -22,15 +24,26 @@ const navLinks = [
 ];
 
 export default function Header() {
+  const { setSearchOpen, setCartOpen, setAuthOpen, setAuthMode, user, setUser, getCartCount } = useStore();
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
-  const [cartCount] = useState(3);
+  const cartCount = useStore((s) => s.cartItems.reduce((c, i) => c + i.quantity, 0));
 
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 20);
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
+
+  const handleUserClick = () => {
+    if (user) {
+      setUser(null);
+      useStore.setState({ cartItems: [] });
+    } else {
+      setAuthMode('login');
+      setAuthOpen(true);
+    }
+  };
 
   return (
     <motion.header
@@ -79,33 +92,47 @@ export default function Header() {
 
           {/* Right Actions */}
           <div className="flex items-center gap-3">
+            {/* Search Icon - CLICKABLE */}
             <motion.button
               whileHover={{ scale: 1.1 }}
               whileTap={{ scale: 0.9 }}
+              onClick={() => setSearchOpen(true)}
               className="p-2.5 rounded-xl text-white/80 hover:text-rivora-green hover:bg-white/10 transition-all duration-300"
+              title="Search products"
             >
               <Search className="w-5 h-5" />
             </motion.button>
+
+            {/* User Icon - CLICKABLE (Login/Logout) */}
             <motion.button
               whileHover={{ scale: 1.1 }}
               whileTap={{ scale: 0.9 }}
+              onClick={handleUserClick}
               className="p-2.5 rounded-xl text-white/80 hover:text-rivora-green hover:bg-white/10 transition-all duration-300"
+              title={user ? 'Sign Out' : 'Sign In'}
             >
-              <User className="w-5 h-5" />
+              {user ? <LogOut className="w-5 h-5" /> : <User className="w-5 h-5" />}
             </motion.button>
+
+            {/* Cart Icon - CLICKABLE */}
             <motion.button
               whileHover={{ scale: 1.1 }}
               whileTap={{ scale: 0.9 }}
+              onClick={() => setCartOpen(true)}
               className="relative p-2.5 rounded-xl text-white/80 hover:text-rivora-green hover:bg-white/10 transition-all duration-300"
+              title="Shopping Cart"
             >
               <ShoppingBag className="w-5 h-5" />
-              <motion.span
-                initial={{ scale: 0 }}
-                animate={{ scale: 1 }}
-                className="absolute -top-1 -right-1 w-5 h-5 bg-rivora-green text-white text-[10px] font-bold rounded-full flex items-center justify-center"
-              >
-                {cartCount}
-              </motion.span>
+              {cartCount > 0 && (
+                <motion.span
+                  key={cartCount}
+                  initial={{ scale: 0 }}
+                  animate={{ scale: 1 }}
+                  className="absolute -top-1 -right-1 w-5 h-5 bg-rivora-green text-white text-[10px] font-bold rounded-full flex items-center justify-center"
+                >
+                  {cartCount}
+                </motion.span>
+              )}
             </motion.button>
 
             {/* Mobile Menu Button */}
@@ -121,6 +148,18 @@ export default function Header() {
         </div>
       </div>
 
+      {/* User greeting when logged in */}
+      {user && scrolled && (
+        <motion.div
+          initial={{ opacity: 0, height: 0 }}
+          animate={{ opacity: 1, height: 'auto' }}
+          className="hidden lg:flex items-center justify-center gap-2 pb-2 text-xs text-white/40"
+        >
+          <Leaf className="w-3 h-3 text-rivora-green" />
+          Welcome, {user.name}!
+        </motion.div>
+      )}
+
       {/* Mobile Menu */}
       <AnimatePresence>
         {mobileOpen && (
@@ -132,6 +171,14 @@ export default function Header() {
             className="lg:hidden bg-rivora-dark/98 backdrop-blur-md border-t border-white/10 overflow-hidden"
           >
             <nav className="px-4 py-4 space-y-1">
+              {user && (
+                <div className="flex items-center gap-2 px-4 py-3 mb-2 rounded-xl bg-rivora-green/10 border border-rivora-green/20">
+                  <div className="w-8 h-8 rounded-full bg-rivora-green flex items-center justify-center text-white text-sm font-bold">
+                    {user.name[0].toUpperCase()}
+                  </div>
+                  <span className="text-sm font-medium text-white">{user.name}</span>
+                </div>
+              )}
               {navLinks.map((link, i) => (
                 <motion.a
                   key={link.label}
@@ -146,6 +193,19 @@ export default function Header() {
                   <ChevronRight className="w-4 h-4 opacity-50" />
                 </motion.a>
               ))}
+              <motion.button
+                initial={{ opacity: 0, x: -20 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ delay: 0.35 }}
+                onClick={() => {
+                  handleUserClick();
+                  setMobileOpen(false);
+                }}
+                className="w-full flex items-center justify-between px-4 py-3 rounded-xl text-white/80 hover:text-rivora-green hover:bg-white/5 transition-all duration-300"
+              >
+                {user ? 'Sign Out' : 'Sign In'}
+                {user ? <LogOut className="w-4 h-4 opacity-50" /> : <ChevronRight className="w-4 h-4 opacity-50" />}
+              </motion.button>
             </nav>
           </motion.div>
         )}

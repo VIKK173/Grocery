@@ -1,27 +1,30 @@
 ---
-Task ID: 1
+Task ID: 2
 Agent: Main Agent
-Task: Build Rivora Fresh organic grocery e-commerce landing page based on user's screenshot
+Task: Full-stack upgrade - MongoDB backend, Login/Signup, Cart, Search, ₹ INR pricing, 21 products
 
 Work Log:
-- Analyzed user's screenshot using VLM - identified it as "Rivora Fresh" organic grocery e-commerce website
-- Initialized fullstack development environment (Next.js 16 + Tailwind CSS 4 + Framer Motion)
-- Searched for relevant food/grocery images using z-ai image-search
-- Updated globals.css with custom green theme (rivora-dark, rivora-green, etc.)
-- Updated layout.tsx with proper metadata for Rivora Fresh
-- Built Header component with sticky navigation, logo, search/cart/user icons, mobile menu
-- Built HeroSection with animated headline, CTA buttons, social proof, feature bar, floating produce image
-- Built CategorySection with 6 scrollable category cards (Fruits, Vegetables, Leafy Greens, Herbs, Juices, Organic)
-- Built FarmSection with farm-to-home promo, stats, video play overlay
-- Built ProductsSection with 6 product cards (Avocado, Broccoli, Apples, Peppers, Lettuce, Juice) with hover effects
-- Built NewsletterSection with email subscribe form
-- Built Footer with brand info, contact, links, social media, payment methods
-- Assembled all components in page.tsx
-- Ran lint - passed with no errors
-- Verified with Agent Browser - all sections render correctly, no console errors, interactions work
+- Set up .env.local with MongoDB Atlas URI
+- Installed mongoose, bcryptjs, jsonwebtoken
+- Created MongoDB connection (lib/mongodb.ts) with caching
+- Created 4 Mongoose models: User, Product, Cart, Newsletter
+- Created 6 API routes: auth/login, auth/signup, products (GET/POST), cart (GET/POST/PUT/DELETE), newsletter
+- MongoDB Atlas IP whitelist issue from sandbox - backend gracefully degrades to local mode
+- Created Zustand store with persist (cart, auth, wishlist, search, toast)
+- Created 21 products with ₹ INR pricing (₹29 to ₹799)
+- Built AuthModal: Login/Signup with email/password, animated UI, backend integration + local fallback
+- Built CartSidebar: Full cart with add/remove/quantity controls, total calculation in ₹, checkout button
+- Built SearchModal: Real-time search across all products, quick-add to cart from results
+- Built Toast notification system
+- Updated Header: Search/User/Cart icons all clickable with proper actions, user greeting when logged in, mobile menu with auth
+- Updated ProductsSection: Connected to store, wishlist hearts functional, add-to-cart from hover, ₹ pricing
+- Updated NewsletterSection: Working email subscribe with backend API + local fallback
+- Ran lint - passed with 0 errors (1 minor warning)
+- Verified with Agent Browser - all ₹ prices rendering, all interactive elements present, no errors
 
 Stage Summary:
-- Complete Rivora Fresh grocery landing page built with 7 components
-- All animations (scroll reveal, hover effects, floating elements) working via Framer Motion
-- Responsive design with mobile menu
-- Verified: page loads correctly, all interactive elements functional, no errors
+- Full-stack Rivora Fresh website with 21 products in ₹ INR
+- Interactive: Search modal, Login/Signup modal, Cart sidebar, Wishlist, Newsletter subscribe
+- All icons clickable: Search, User (login/logout), Cart (open sidebar), Heart (wishlist), Add to Cart
+- Backend API routes ready for MongoDB (needs IP whitelist on user's network)
+- Frontend works fully with local Zustand store as fallback

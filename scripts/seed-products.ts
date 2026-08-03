@@ -1,0 +1,176 @@
+import dbConnect from '@/lib/mongodb';
+import Product from '@/models/Product';
+
+const products = [
+  {
+    name: 'Fresh Avocado',
+    description: 'Premium Hass avocados, perfectly ripe and creamy. Great for salads and toast.',
+    price: 149, originalPrice: 199,
+    image: 'https://images.unsplash.com/photo-1523049673857-eb18f1d7b578?w=400&h=400&fit=crop',
+    category: 'Vegetables', badge: 'Sale', badgeColor: 'bg-rose-500',
+    rating: 4.8, reviews: 124, inStock: true, unit: '1 pc (200g)', featured: true,
+  },
+  {
+    name: 'Organic Broccoli',
+    description: 'Fresh green broccoli heads, packed with nutrients and fiber.',
+    price: 89,
+    image: 'https://images.unsplash.com/photo-1459411552884-841db9b3cc2a?w=400&h=400&fit=crop',
+    category: 'Vegetables', badge: 'New', badgeColor: 'bg-rivora-green',
+    rating: 4.9, reviews: 89, inStock: true, unit: '1 pc (300g)', featured: true,
+  },
+  {
+    name: 'Green Apples',
+    description: 'Crisp and tangy green apples from Kashmir. Perfect for snacking.',
+    price: 189,
+    image: 'https://images.unsplash.com/photo-1560806887-1e4cd0b6cbd6?w=400&h=400&fit=crop',
+    category: 'Fresh Fruits', rating: 4.7, reviews: 156, inStock: true, unit: '1 kg', featured: true,
+  },
+  {
+    name: 'Bell Peppers (Mix)',
+    description: 'Colorful bell peppers - red, yellow, and green. Sweet and crunchy.',
+    price: 99, originalPrice: 129,
+    image: 'https://images.unsplash.com/photo-1563565375-f3fdfdbefa83?w=400&h=400&fit=crop',
+    category: 'Vegetables', badge: 'Sale', badgeColor: 'bg-rose-500',
+    rating: 4.6, reviews: 78, inStock: true, unit: '500g', featured: true,
+  },
+  {
+    name: 'Fresh Lettuce',
+    description: 'Crisp iceberg lettuce, farm fresh. Ideal for salads and sandwiches.',
+    price: 49, originalPrice: 69,
+    image: 'https://images.unsplash.com/photo-1622206151226-18ca2c9ab4a1?w=400&h=400&fit=crop',
+    category: 'Leafy Greens', badge: 'Sale', badgeColor: 'bg-rose-500',
+    rating: 4.8, reviews: 203, inStock: true, unit: '1 pc', featured: true,
+  },
+  {
+    name: 'Fresh Orange Juice',
+    description: '100% pure cold-pressed orange juice. No added sugar or preservatives.',
+    price: 149,
+    image: 'https://images.unsplash.com/photo-1621506289937-a8e4df240d0b?w=400&h=400&fit=crop',
+    category: 'Fresh Juices', badge: 'New', badgeColor: 'bg-rivora-green',
+    rating: 4.9, reviews: 167, inStock: true, unit: '1L', featured: true,
+  },
+  {
+    name: 'Organic Spinach',
+    description: 'Tender baby spinach leaves. Rich in iron and vitamins.',
+    price: 59,
+    image: 'https://images.unsplash.com/photo-1576045057995-568f588f82fb?w=400&h=400&fit=crop',
+    category: 'Leafy Greens', rating: 4.7, reviews: 134, inStock: true, unit: '250g bunch', featured: false,
+  },
+  {
+    name: 'Alphonso Mangoes',
+    description: 'Premium Ratnagiri Alphonso mangoes. Sweet, juicy, and aromatic.',
+    price: 599, originalPrice: 799,
+    image: 'https://images.unsplash.com/photo-1553279768-865429fa0078?w=400&h=400&fit=crop',
+    category: 'Fresh Fruits', badge: 'Sale', badgeColor: 'bg-rose-500',
+    rating: 4.9, reviews: 312, inStock: true, unit: '1 dozen', featured: true,
+  },
+  {
+    name: 'Fresh Ginger',
+    description: 'Aromatic fresh ginger root. Essential for Indian cooking and chai.',
+    price: 69,
+    image: 'https://images.unsplash.com/photo-1615484477778-ca3b77940c25?w=400&h=400&fit=crop',
+    category: 'Herbs & Spices', rating: 4.5, reviews: 98, inStock: true, unit: '250g', featured: false,
+  },
+  {
+    name: 'Organic Tomatoes',
+    description: 'Vine-ripened organic tomatoes. Perfect for curries and salads.',
+    price: 79,
+    image: 'https://images.unsplash.com/photo-1546470427-0d4db154ceb8?w=400&h=400&fit=crop',
+    category: 'Vegetables', rating: 4.6, reviews: 145, inStock: true, unit: '1 kg', featured: false,
+  },
+  {
+    name: 'Bananas',
+    description: 'Fresh ripe bananas. Naturally sweet and energy-boosting.',
+    price: 49,
+    image: 'https://images.unsplash.com/photo-1571771894821-ce9b6c11b08e?w=400&h=400&fit=crop',
+    category: 'Fresh Fruits', rating: 4.4, reviews: 267, inStock: true, unit: '1 dozen', featured: false,
+  },
+  {
+    name: 'Fresh Coriander',
+    description: 'Aromatic coriander leaves. Essential garnish for Indian dishes.',
+    price: 29,
+    image: 'https://images.unsplash.com/photo-1598170845058-32b9d6a5da37?w=400&h=400&fit=crop',
+    category: 'Leafy Greens', rating: 4.3, reviews: 89, inStock: true, unit: '1 bunch', featured: false,
+  },
+  {
+    name: 'Strawberries',
+    description: 'Sweet and juicy strawberries. Perfect for desserts and smoothies.',
+    price: 299,
+    image: 'https://images.unsplash.com/photo-1464965911861-746a04b4bca6?w=400&h=400&fit=crop',
+    category: 'Fresh Fruits', badge: 'New', badgeColor: 'bg-rivora-green',
+    rating: 4.8, reviews: 198, inStock: true, unit: '250g box', featured: true,
+  },
+  {
+    name: 'Turmeric Powder',
+    description: 'Pure organic turmeric powder. Anti-inflammatory golden spice.',
+    price: 129,
+    image: 'https://images.unsplash.com/photo-1615485290382-441e4d049cb5?w=400&h=400&fit=crop',
+    category: 'Herbs & Spices', badge: 'Bestseller', badgeColor: 'bg-amber-500',
+    rating: 4.7, reviews: 234, inStock: true, unit: '200g', featured: false,
+  },
+  {
+    name: 'Fresh Carrots',
+    description: 'Crunchy organic carrots, rich in beta-carotene. Great for juicing.',
+    price: 59,
+    image: 'https://images.unsplash.com/photo-1598170845058-32b9d6a5da37?w=400&h=400&fit=crop',
+    category: 'Vegetables', rating: 4.5, reviews: 112, inStock: true, unit: '500g', featured: false,
+  },
+  {
+    name: 'Watermelon Juice',
+    description: 'Refreshing cold-pressed watermelon juice with mint. Perfect for summers.',
+    price: 99,
+    image: 'https://images.unsplash.com/photo-1600271886742-f049cd451bba?w=400&h=400&fit=crop',
+    category: 'Fresh Juices', badge: 'Summer', badgeColor: 'bg-sky-500',
+    rating: 4.6, reviews: 87, inStock: true, unit: '1L', featured: false,
+  },
+  {
+    name: 'Organic Potatoes',
+    description: 'Farm-fresh potatoes. Versatile for every Indian recipe.',
+    price: 49,
+    image: 'https://images.unsplash.com/photo-1518977676601-b53f82ber508?w=400&h=400&fit=crop',
+    category: 'Vegetables', rating: 4.4, reviews: 178, inStock: true, unit: '1 kg', featured: false,
+  },
+  {
+    name: 'Mixed Fruit Basket',
+    description: 'A curated basket of seasonal fresh fruits. Perfect gifting option.',
+    price: 799, originalPrice: 999,
+    image: 'https://images.unsplash.com/photo-1610832958506-aa56368176cf?w=400&h=400&fit=crop',
+    category: 'Fresh Fruits', badge: 'Sale', badgeColor: 'bg-rose-500',
+    rating: 4.9, reviews: 56, inStock: true, unit: '2 kg assorted', featured: true,
+  },
+  {
+    name: 'Green Chillies',
+    description: 'Spicy green chillies for your daily cooking needs.',
+    price: 39,
+    image: 'https://images.unsplash.com/photo-1588252303782-cb80119abd6d?w=400&h=400&fit=crop',
+    category: 'Vegetables', rating: 4.3, reviews: 156, inStock: true, unit: '250g', featured: false,
+  },
+  {
+    name: 'Mixed Veggie Box',
+    description: 'A weekly box of assorted organic vegetables. Save 20%.',
+    price: 349, originalPrice: 449,
+    image: 'https://images.unsplash.com/photo-1540420773420-3366772f4999?w=400&h=400&fit=crop',
+    category: 'Organic', badge: 'Save 20%', badgeColor: 'bg-rose-500',
+    rating: 4.8, reviews: 89, inStock: true, unit: '3 kg box', featured: true,
+  },
+  {
+    name: 'Organic Basil',
+    description: 'Fresh organic basil leaves. Perfect for pasta, pizza, and pesto.',
+    price: 45,
+    image: 'https://images.unsplash.com/photo-1596040033229-a9821ebd058d?w=400&h=400&fit=crop',
+    category: 'Herbs & Spices', rating: 4.6, reviews: 67, inStock: true, unit: '1 bunch', featured: false,
+  },
+];
+
+export default async function seedProducts() {
+  await dbConnect();
+  const existingCount = await Product.countDocuments();
+  if (existingCount > 0) {
+    console.log(`Already has ${existingCount} products. Skipping.`);
+    return;
+  }
+  await Product.insertMany(products);
+  console.log(`Seeded ${products.length} products!`);
+}
+
+seedProducts();

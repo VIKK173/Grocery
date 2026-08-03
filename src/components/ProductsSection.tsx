@@ -4,70 +4,14 @@ import { useRef } from 'react';
 import { motion, useInView } from 'framer-motion';
 import { ArrowRight, ShoppingBag, Heart, Eye } from 'lucide-react';
 import { useState } from 'react';
-
-const products = [
-  {
-    name: 'Fresh Avocado',
-    price: 4.99,
-    originalPrice: 6.99,
-    image: 'https://images.unsplash.com/photo-1523049673857-eb18f1d7b578?w=300&h=300&fit=crop',
-    badge: 'Sale',
-    badgeColor: 'bg-rose-500',
-    rating: 4.8,
-    reviews: 124,
-  },
-  {
-    name: 'Organic Broccoli',
-    price: 2.68,
-    image: 'https://images.unsplash.com/photo-1459411552884-841db9b3cc2a?w=300&h=300&fit=crop',
-    badge: 'New',
-    badgeColor: 'bg-rivora-green',
-    rating: 4.9,
-    reviews: 89,
-  },
-  {
-    name: 'Green Apples',
-    price: 3.49,
-    image: 'https://images.unsplash.com/photo-1560806887-1e4cd0b6cbd6?w=300&h=300&fit=crop',
-    badge: null,
-    rating: 4.7,
-    reviews: 156,
-  },
-  {
-    name: 'Bell Peppers',
-    price: 2.99,
-    image: 'https://images.unsplash.com/photo-1563565375-f3fdfdbefa83?w=300&h=300&fit=crop',
-    badge: 'Sale',
-    badgeColor: 'bg-rose-500',
-    rating: 4.6,
-    reviews: 78,
-  },
-  {
-    name: 'Fresh Lettuce',
-    price: 1.99,
-    originalPrice: 2.99,
-    image: 'https://images.unsplash.com/photo-1622206151226-18ca2c9ab4a1?w=300&h=300&fit=crop',
-    badge: 'Sale',
-    badgeColor: 'bg-rose-500',
-    rating: 4.8,
-    reviews: 203,
-  },
-  {
-    name: 'Orange Juice',
-    price: 5.49,
-    image: 'https://images.unsplash.com/photo-1621506289937-a8e4df240d0b?w=300&h=300&fit=crop',
-    badge: 'New',
-    badgeColor: 'bg-rivora-green',
-    rating: 4.9,
-    reviews: 167,
-  },
-];
+import { useStore } from '@/lib/store';
+import { featuredProducts } from '@/lib/data';
 
 const containerVariants = {
   hidden: { opacity: 0 },
   visible: {
     opacity: 1,
-    transition: { staggerChildren: 0.1, delayChildren: 0.2 },
+    transition: { staggerChildren: 0.08, delayChildren: 0.2 },
   },
 };
 
@@ -81,9 +25,10 @@ const cardVariants = {
   },
 };
 
-function ProductCard({ product }: { product: typeof products[0] }) {
+function ProductCard({ product }: { product: typeof featuredProducts[0] }) {
+  const { addToCart, wishlist, toggleWishlist } = useStore();
   const [isHovered, setIsHovered] = useState(false);
-  const [liked, setLiked] = useState(false);
+  const isLiked = wishlist.includes(product._id);
 
   return (
     <motion.div
@@ -102,19 +47,19 @@ function ProductCard({ product }: { product: typeof products[0] }) {
         </div>
       )}
 
-      {/* Wishlist */}
+      {/* Wishlist - CLICKABLE */}
       <motion.button
         whileHover={{ scale: 1.2 }}
         whileTap={{ scale: 0.8 }}
         onClick={(e) => {
           e.stopPropagation();
-          setLiked(!liked);
+          toggleWishlist(product._id);
         }}
         className="absolute top-4 right-4 z-20 w-8 h-8 rounded-full bg-white/90 shadow-sm flex items-center justify-center"
       >
         <Heart
           className={`w-4 h-4 transition-colors ${
-            liked ? 'fill-rose-500 text-rose-500' : 'text-gray-400'
+            isLiked ? 'fill-rose-500 text-rose-500' : 'text-gray-400'
           }`}
         />
       </motion.button>
@@ -146,6 +91,10 @@ function ProductCard({ product }: { product: typeof products[0] }) {
           <motion.button
             whileHover={{ scale: 1.1 }}
             whileTap={{ scale: 0.9 }}
+            onClick={(e) => {
+              e.stopPropagation();
+              addToCart(product);
+            }}
             className="w-9 h-9 rounded-full bg-rivora-green shadow-md flex items-center justify-center text-white"
           >
             <ShoppingBag className="w-4 h-4" />
@@ -179,11 +128,11 @@ function ProductCard({ product }: { product: typeof products[0] }) {
 
         <div className="flex items-center gap-2 mt-2">
           <span className="text-lg font-bold text-rivora-green-dark">
-            ${product.price.toFixed(2)}
+            ₹{product.price.toLocaleString('en-IN')}
           </span>
           {product.originalPrice && (
             <span className="text-sm text-gray-400 line-through">
-              ${product.originalPrice.toFixed(2)}
+              ₹{product.originalPrice.toLocaleString('en-IN')}
             </span>
           )}
         </div>
@@ -216,7 +165,7 @@ export default function ProductsSection() {
             </p>
           </div>
           <motion.a
-            href="#"
+            href="#shop"
             whileHover={{ x: 5 }}
             className="hidden md:flex items-center gap-1 text-rivora-green-dark font-medium hover:text-rivora-green transition-colors"
           >
@@ -230,10 +179,10 @@ export default function ProductsSection() {
           variants={containerVariants}
           initial="hidden"
           animate={isInView ? 'visible' : 'hidden'}
-          className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4 md:gap-6"
+          className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-6"
         >
-          {products.map((product) => (
-            <ProductCard key={product.name} product={product} />
+          {featuredProducts.map((product) => (
+            <ProductCard key={product._id} product={product} />
           ))}
         </motion.div>
       </div>

@@ -7,6 +7,10 @@ import FarmSection from '@/components/FarmSection';
 import ProductsSection from '@/components/ProductsSection';
 import NewsletterSection from '@/components/NewsletterSection';
 import Footer from '@/components/Footer';
+import AuthModal from '@/components/AuthModal';
+import CartSidebar from '@/components/CartSidebar';
+import SearchModal from '@/components/SearchModal';
+import Toast from '@/components/Toast';
 
 export default function Home() {
   return (
@@ -20,6 +24,12 @@ export default function Home() {
         <NewsletterSection />
       </main>
       <Footer />
+
+      {/* Overlays */}
+      <AuthModal />
+      <CartSidebar />
+      <SearchModal />
+      <Toast />
     </div>
   );
 }

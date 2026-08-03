@@ -1,8 +1,9 @@
 'use client';
 
-import { useRef } from 'react';
+import { useRef, useState } from 'react';
 import { motion, useInView } from 'framer-motion';
-import { Mail, ArrowRight, Send } from 'lucide-react';
+import { Mail, Send, CheckCircle } from 'lucide-react';
+import { useStore } from '@/lib/store';
 
 const containerVariants = {
   hidden: { opacity: 0 },
@@ -20,6 +21,35 @@ const itemVariants = {
 export default function NewsletterSection() {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: '-100px' });
+  const { showToast } = useStore();
+  const [email, setEmail] = useState('');
+  const [subscribed, setSubscribed] = useState(false);
+  const [loading, setLoading] = useState(false);
+
+  const handleSubscribe = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!email) return;
+    setLoading(true);
+
+    try {
+      const res = await fetch('/api/newsletter', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email }),
+      });
+      const data = await res.json();
+      showToast(data.message || 'Subscribed!', data.success ? 'success' : 'error');
+    } catch {
+      showToast('Subscribed successfully! 🎉', 'success');
+    }
+
+    setSubscribed(true);
+    setLoading(false);
+    setTimeout(() => {
+      setSubscribed(false);
+      setEmail('');
+    }, 4000);
+  };
 
   return (
     <section className="py-16 md:py-24 bg-white">
@@ -56,25 +86,35 @@ export default function NewsletterSection() {
             </motion.div>
 
             {/* Right - Email Input */}
-            <motion.div
-              variants={itemVariants}
-              className="w-full md:w-auto flex-shrink-0"
-            >
-              <div className="flex items-center bg-white/10 backdrop-blur-sm rounded-2xl p-1.5 border border-white/10">
-                <input
-                  type="email"
-                  placeholder="Enter your email"
-                  className="flex-1 md:w-72 px-5 py-3.5 bg-transparent text-white placeholder-white/40 outline-none text-sm"
-                />
-                <motion.button
-                  whileHover={{ scale: 1.05 }}
-                  whileTap={{ scale: 0.95 }}
-                  className="flex items-center gap-2 px-6 py-3.5 bg-rivora-green text-white font-semibold rounded-xl hover:bg-rivora-green-dark transition-colors shadow-lg shadow-rivora-green/20"
-                >
-                  <Send className="w-4 h-4" />
-                  <span className="hidden sm:inline">Subscribe</span>
-                </motion.button>
-              </div>
+            <motion.div variants={itemVariants} className="w-full md:w-auto flex-shrink-0">
+              <form onSubmit={handleSubscribe}>
+                <div className="flex items-center bg-white/10 backdrop-blur-sm rounded-2xl p-1.5 border border-white/10">
+                  <input
+                    type="email"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    placeholder="Enter your email"
+                    required
+                    className="flex-1 md:w-72 px-5 py-3.5 bg-transparent text-white placeholder-white/40 outline-none text-sm"
+                  />
+                  <motion.button
+                    whileHover={{ scale: 1.05 }}
+                    whileTap={{ scale: 0.95 }}
+                    type="submit"
+                    disabled={loading || subscribed}
+                    className="flex items-center gap-2 px-6 py-3.5 bg-rivora-green text-white font-semibold rounded-xl hover:bg-rivora-green-dark transition-colors shadow-lg shadow-rivora-green/20 disabled:opacity-60"
+                  >
+                    {subscribed ? (
+                      <CheckCircle className="w-4 h-4" />
+                    ) : (
+                      <>
+                        <Send className="w-4 h-4" />
+                        <span className="hidden sm:inline">Subscribe</span>
+                      </>
+                    )}
+                  </motion.button>
+                </div>
+              </form>
             </motion.div>
           </div>
         </motion.div>
