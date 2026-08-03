@@ -59,8 +59,8 @@ export default function HeroSection() {
             key={i}
             className="absolute rounded-full bg-grocery-lime/20"
             style={{
-              width: 3 + Math.random() * 4,
-              height: 3 + Math.random() * 4,
+              width: 4 + (i % 3),
+              height: 4 + (i % 3),
               left: `${10 + i * 15}%`,
               top: `${15 + (i % 4) * 20}%`,
             }}
