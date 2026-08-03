@@ -16,6 +16,10 @@ export interface Product {
   inStock: boolean;
   unit: string;
   featured: boolean;
+  nutrition?: string;
+  tags?: string[];
+  origin?: string;
+  shelfLife?: string;
 }
 
 export interface CartItem {
@@ -60,6 +64,12 @@ interface StoreState {
   // Wishlist
   wishlist: string[];
   toggleWishlist: (productId: string) => void;
+
+  // Product Detail
+  selectedProduct: Product | null;
+  setSelectedProduct: (product: Product | null) => void;
+  isProductDetailOpen: boolean;
+  setProductDetailOpen: (open: boolean) => void;
 
   // Toast
   toast: { message: string; type: 'success' | 'error' | 'info' } | null;
@@ -127,6 +137,12 @@ export const useStore = create<StoreState>()(
       setSearchOpen: (open) => set({ isSearchOpen: open }),
       searchQuery: '',
       setSearchQuery: (query) => set({ searchQuery: query }),
+
+      // Product Detail
+      selectedProduct: null,
+      setSelectedProduct: (product) => set({ selectedProduct: product }),
+      isProductDetailOpen: false,
+      setProductDetailOpen: (open) => set({ isProductDetailOpen: open }),
 
       // Wishlist
       wishlist: [],
