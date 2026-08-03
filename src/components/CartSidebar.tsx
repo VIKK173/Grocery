@@ -3,9 +3,10 @@
 import { motion, AnimatePresence } from 'framer-motion';
 import { X, Plus, Minus, Trash2, ShoppingBag, ArrowRight, Leaf } from 'lucide-react';
 import { useStore } from '@/lib/store';
+import { useRouter } from 'next/navigation';
 
 export default function CartSidebar() {
-  const { isCartOpen, setCartOpen, cartItems, removeFromCart, updateQuantity, getCartTotal, getCartCount } = useStore();
+  const { isCartOpen, setCartOpen, cartItems, removeFromCart, updateQuantity, getCartTotal, getCartCount, setCheckoutOpen } = useStore();
 
   return (
     <AnimatePresence>
@@ -158,6 +159,7 @@ export default function CartSidebar() {
                 <motion.button
                   whileHover={{ scale: 1.02 }}
                   whileTap={{ scale: 0.98 }}
+                  onClick={() => { setCartOpen(false); setTimeout(() => setCheckoutOpen(true), 300); }}
                   className="w-full py-4 bg-grocery-yellow text-grocery-darker font-bold rounded-xl shadow-lg yellow-glow flex items-center justify-center gap-2 hover:bg-grocery-yellow-dark transition-colors"
                 >
                   Proceed to Checkout

@@ -65,6 +65,14 @@ interface StoreState {
   wishlist: string[];
   toggleWishlist: (productId: string) => void;
 
+  // Checkout
+  isCheckoutOpen: boolean;
+  setCheckoutOpen: (open: boolean) => void;
+  lastOrderId: string | null;
+  setLastOrderId: (id: string | null) => void;
+  lastOrderData: Record<string, unknown> | null;
+  setLastOrderData: (data: Record<string, unknown> | null) => void;
+
   // Product Detail
   selectedProduct: Product | null;
   setSelectedProduct: (product: Product | null) => void;
@@ -137,6 +145,14 @@ export const useStore = create<StoreState>()(
       setSearchOpen: (open) => set({ isSearchOpen: open }),
       searchQuery: '',
       setSearchQuery: (query) => set({ searchQuery: query }),
+
+      // Checkout
+      isCheckoutOpen: false,
+      setCheckoutOpen: (open) => set({ isCheckoutOpen: open }),
+      lastOrderId: null,
+      setLastOrderId: (id) => set({ lastOrderId: id }),
+      lastOrderData: null,
+      setLastOrderData: (data) => set({ lastOrderData: data }),
 
       // Product Detail
       selectedProduct: null,
