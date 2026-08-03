@@ -35,7 +35,7 @@ export default function FarmSection() {
           variants={containerVariants}
           initial="hidden"
           animate={isInView ? 'visible' : 'hidden'}
-          className="relative rounded-[2rem] overflow-hidden bg-rivora-dark shadow-2xl"
+          className="relative rounded-[2rem] overflow-hidden hero-gradient shadow-2xl"
         >
           <div className="grid md:grid-cols-2 gap-0">
             {/* Left Content */}
@@ -43,7 +43,7 @@ export default function FarmSection() {
               variants={itemVariants}
               className="p-8 md:p-12 lg:p-16 flex flex-col justify-center"
             >
-              <span className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-rivora-green/15 text-rivora-green text-sm font-medium w-fit mb-6">
+              <span className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-grocery-green/15 text-grocery-lime text-sm font-medium w-fit mb-6">
                 <Leaf className="w-3.5 h-3.5" />
                 Farm Fresh
               </span>
@@ -51,7 +51,7 @@ export default function FarmSection() {
               <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-white leading-tight">
                 From Our Farm
                 <br />
-                <span className="text-rivora-green">To Your Home.</span>
+                <span className="text-grocery-yellow">To Your Home.</span>
               </h2>
 
               <p className="mt-6 text-white/60 text-lg leading-relaxed max-w-md">
@@ -64,7 +64,7 @@ export default function FarmSection() {
                 href="#"
                 whileHover={{ scale: 1.05, x: 5 }}
                 whileTap={{ scale: 0.95 }}
-                className="mt-8 inline-flex items-center gap-2 px-8 py-4 bg-rivora-green text-white font-semibold rounded-2xl w-fit shadow-lg shadow-rivora-green/20 hover:bg-rivora-green-dark transition-colors duration-300"
+                className="mt-8 inline-flex items-center gap-2 px-8 py-4 bg-grocery-yellow text-grocery-darker font-semibold rounded-xl w-fit shadow-lg yellow-glow hover:bg-grocery-yellow-dark transition-colors duration-300"
               >
                 Learn More
                 <ArrowRight className="w-4 h-4" />
@@ -82,8 +82,8 @@ export default function FarmSection() {
                     whileHover={{ y: -4 }}
                     className="text-center"
                   >
-                    <div className="w-12 h-12 rounded-xl bg-rivora-green/10 flex items-center justify-center mx-auto mb-2">
-                      <stat.icon className="w-5 h-5 text-rivora-green" />
+                    <div className="w-12 h-12 rounded-xl bg-grocery-green/10 flex items-center justify-center mx-auto mb-2">
+                      <stat.icon className="w-5 h-5 text-grocery-lime" />
                     </div>
                     <p className="text-xl font-bold text-white">{stat.value}</p>
                     <p className="text-xs text-white/50">{stat.label}</p>
@@ -102,7 +102,6 @@ export default function FarmSection() {
                 alt="Organic farm field"
                 className="w-full h-full object-cover"
               />
-              {/* Play Button Overlay */}
               <motion.button
                 whileHover={{ scale: 1.1 }}
                 whileTap={{ scale: 0.95 }}
@@ -110,8 +109,7 @@ export default function FarmSection() {
               >
                 <Play className="w-6 h-6 text-white ml-1" fill="white" />
               </motion.button>
-              {/* Gradient overlay */}
-              <div className="absolute inset-0 bg-gradient-to-r from-rivora-dark/50 to-transparent" />
+              <div className="absolute inset-0 bg-gradient-to-r from-grocery-dark/50 to-transparent" />
             </motion.div>
           </div>
         </motion.div>

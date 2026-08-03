@@ -82,7 +82,7 @@ export default function SearchModal() {
                     <button
                       key={tag}
                       onClick={() => setSearchQuery(tag)}
-                      className="px-3 py-1.5 text-sm bg-gray-100 rounded-full text-gray-600 hover:bg-rivora-green/10 hover:text-rivora-green transition-colors"
+                      className="px-3 py-1.5 text-sm bg-gray-100 rounded-full text-gray-600 hover:bg-grocery-green/10 hover:text-grocery-green transition-colors"
                     >
                       {tag}
                     </button>
@@ -113,7 +113,7 @@ export default function SearchModal() {
                       className="w-14 h-14 rounded-xl object-cover flex-shrink-0"
                     />
                     <div className="flex-1 min-w-0">
-                      <h4 className="text-sm font-semibold text-gray-800 group-hover:text-rivora-green transition-colors truncate">
+                      <h4 className="text-sm font-semibold text-gray-800 group-hover:text-grocery-green transition-colors truncate">
                         {product.name}
                       </h4>
                       <p className="text-xs text-gray-400">{product.category} &middot; {product.unit}</p>
@@ -123,12 +123,12 @@ export default function SearchModal() {
                       </div>
                     </div>
                     <div className="text-right flex-shrink-0">
-                      <p className="text-sm font-bold text-rivora-green-dark">
+                      <p className="text-sm font-bold text-grocery-dark">
                         ₹{product.price.toLocaleString('en-IN')}
                       </p>
                       <motion.button
                         whileHover={{ scale: 1.1 }}
-                        className="mt-1 p-1.5 rounded-lg bg-rivora-green/10 text-rivora-green group-hover:bg-rivora-green group-hover:text-white transition-all"
+                        className="mt-1 p-1.5 rounded-lg bg-grocery-green/10 text-grocery-green group-hover:bg-grocery-green group-hover:text-white transition-all"
                       >
                         <ShoppingBag className="w-3.5 h-3.5" />
                       </motion.button>

@@ -2,7 +2,7 @@
 
 import { useRef } from 'react';
 import { motion, useInView } from 'framer-motion';
-import { TrendingUp, Users, Package, Award, Leaf, Truck, Shield, Star } from 'lucide-react';
+import { TrendingUp, Users, Package, Award } from 'lucide-react';
 
 const stats = [
   { icon: Users, value: '4.8K+', label: 'Happy Customers', color: 'text-blue-500', bg: 'bg-blue-500/10' },
@@ -28,8 +28,8 @@ export default function StatsSection() {
   return (
     <section className="py-20 md:py-28 hero-gradient relative overflow-hidden">
       <div className="absolute inset-0">
-        <div className="absolute top-0 left-1/4 w-[400px] h-[400px] rounded-full bg-rivora-green/5 blur-[120px]" />
-        <div className="absolute bottom-0 right-1/4 w-[300px] h-[300px] rounded-full bg-rivora-lime/5 blur-[100px]" />
+        <div className="absolute top-0 left-1/4 w-[400px] h-[400px] rounded-full bg-grocery-green/5 blur-[120px]" />
+        <div className="absolute bottom-0 right-1/4 w-[300px] h-[300px] rounded-full bg-grocery-yellow/5 blur-[100px]" />
       </div>
 
       <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8" ref={ref}>
@@ -44,7 +44,7 @@ export default function StatsSection() {
               key={stat.label}
               variants={itemVariants}
               whileHover={{ y: -6, scale: 1.03 }}
-              className="text-center p-8 rounded-3xl glass"
+              className="text-center p-8 rounded-2xl glass-card"
             >
               <div className={`w-16 h-16 rounded-2xl ${stat.bg} flex items-center justify-center mx-auto mb-5`}>
                 <stat.icon className={`w-7 h-7 ${stat.color}`} />

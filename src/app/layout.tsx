@@ -14,23 +14,23 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Rivora Fresh - Premium Organic Fruits & Vegetables",
+  title: "Grocery - Fresh Organic Fruits & Vegetables Delivery",
   description:
-    "Premium & tasty fruits and vegetables delivered fresh to your doorstep. Shop organic produce with Rivora Fresh.",
+    "Get fresh grocery delivered to your doorstep. Premium organic fruits, vegetables & more at great prices.",
   keywords: [
     "organic",
     "fresh produce",
     "fruits",
     "vegetables",
     "grocery",
-    "Rivora Fresh",
+    "Grocery",
   ],
   icons: {
     icon: "https://z-cdn.chatglm.cn/z-ai/static/logo.svg",
   },
   openGraph: {
-    title: "Rivora Fresh - Premium Organic Produce",
-    description: "Fresh Choices, Better Life. Premium organic fruits & vegetables.",
+    title: "Grocery - Premium Organic Produce",
+    description: "Get Fresh Grocery. Enjoy healthy life with premium organic produce delivery.",
     type: "website",
   },
 };

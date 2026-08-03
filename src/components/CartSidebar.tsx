@@ -31,8 +31,8 @@ export default function CartSidebar() {
             {/* Header */}
             <div className="flex items-center justify-between p-6 border-b border-gray-100">
               <div className="flex items-center gap-3">
-                <div className="w-10 h-10 rounded-xl bg-rivora-green/10 flex items-center justify-center">
-                  <ShoppingBag className="w-5 h-5 text-rivora-green" />
+                <div className="w-10 h-10 rounded-xl bg-grocery-green/10 flex items-center justify-center">
+                  <ShoppingBag className="w-5 h-5 text-grocery-green" />
                 </div>
                 <div>
                   <h2 className="text-lg font-bold text-gray-900">Your Cart</h2>
@@ -69,7 +69,7 @@ export default function CartSidebar() {
                     whileHover={{ scale: 1.05 }}
                     whileTap={{ scale: 0.95 }}
                     onClick={() => setCartOpen(false)}
-                    className="px-6 py-3 bg-rivora-green text-white font-semibold rounded-xl shadow-lg shadow-rivora-green/20"
+                    className="px-6 py-3 bg-grocery-green text-white font-semibold rounded-xl shadow-lg shadow-grocery-green/20"
                   >
                     Start Shopping
                   </motion.button>
@@ -84,7 +84,7 @@ export default function CartSidebar() {
                         initial={{ opacity: 0, x: 20 }}
                         animate={{ opacity: 1, x: 0 }}
                         exit={{ opacity: 0, x: -20, height: 0 }}
-                        className="flex gap-4 p-3 rounded-2xl bg-gray-50 group hover:bg-gray-100 transition-colors"
+                        className="flex gap-4 p-3 rounded-xl bg-gray-50 group hover:bg-gray-100 transition-colors"
                       >
                         <img
                           src={item.product.image}
@@ -97,7 +97,7 @@ export default function CartSidebar() {
                           </h4>
                           <p className="text-xs text-gray-400">{item.product.unit}</p>
                           <div className="flex items-center justify-between mt-2">
-                            <span className="text-base font-bold text-rivora-green-dark">
+                            <span className="text-base font-bold text-grocery-dark">
                               ₹{(item.product.price * item.quantity).toLocaleString('en-IN')}
                             </span>
                             <div className="flex items-center gap-2">
@@ -148,7 +148,7 @@ export default function CartSidebar() {
                   </div>
                   <div className="flex justify-between text-sm text-gray-500">
                     <span>Delivery</span>
-                    <span className="text-rivora-green font-medium">FREE</span>
+                    <span className="text-grocery-green font-medium">FREE</span>
                   </div>
                   <div className="flex justify-between text-lg font-bold text-gray-900 pt-2 border-t border-gray-100">
                     <span>Total</span>
@@ -158,7 +158,7 @@ export default function CartSidebar() {
                 <motion.button
                   whileHover={{ scale: 1.02 }}
                   whileTap={{ scale: 0.98 }}
-                  className="w-full py-4 bg-rivora-green text-white font-semibold rounded-2xl shadow-lg shadow-rivora-green/30 flex items-center justify-center gap-2 hover:bg-rivora-green-dark transition-colors"
+                  className="w-full py-4 bg-grocery-yellow text-grocery-darker font-bold rounded-xl shadow-lg yellow-glow flex items-center justify-center gap-2 hover:bg-grocery-yellow-dark transition-colors"
                 >
                   Proceed to Checkout
                   <ArrowRight className="w-4 h-4" />

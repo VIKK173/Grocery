@@ -63,10 +63,10 @@ export default function CheckoutModal() {
             className="fixed top-0 right-0 z-[95] w-full max-w-lg h-screen bg-white shadow-2xl flex flex-col"
           >
             {/* Header */}
-            <div className="flex items-center justify-between p-5 border-b border-gray-100 bg-rivora-light/50">
+            <div className="flex items-center justify-between p-5 border-b border-gray-100 bg-grocery-light/50">
               <div className="flex items-center gap-3">
-                <div className="w-10 h-10 rounded-xl bg-rivora-green/10 flex items-center justify-center">
-                  <ShoppingBag className="w-5 h-5 text-rivora-green" />
+                <div className="w-10 h-10 rounded-xl bg-grocery-green/10 flex items-center justify-center">
+                  <ShoppingBag className="w-5 h-5 text-grocery-green" />
                 </div>
                 <div>
                   <h2 className="text-lg font-bold text-gray-900">Checkout</h2>
@@ -104,14 +104,14 @@ export default function CheckoutModal() {
                           <s.icon className={`w-5 h-5 ${step >= i ? 'text-white' : 'text-gray-400'}`} />
                         )}
                       </motion.div>
-                      <span className={`text-[11px] mt-1.5 font-medium ${step >= i ? 'text-rivora-green' : 'text-gray-400'}`}>
+                      <span className={`text-[11px] mt-1.5 font-medium ${step >= i ? 'text-grocery-green' : 'text-gray-400'}`}>
                         {s.label}
                       </span>
                     </div>
                     {i < 2 && (
                       <div className="h-[2px] flex-1 mx-2 rounded-full bg-gray-200 relative -top-3">
                         <motion.div
-                          className="absolute inset-y-0 left-0 rounded-full bg-rivora-green"
+                          className="absolute inset-y-0 left-0 rounded-full bg-grocery-green"
                           animate={{ width: step > i ? '100%' : '0%' }}
                           transition={{ duration: 0.4 }}
                         />
@@ -137,7 +137,7 @@ export default function CheckoutModal() {
                     {/* Cart Items */}
                     <div className="space-y-3">
                       <h3 className="text-sm font-semibold text-gray-900 flex items-center gap-2">
-                        <ShoppingBag className="w-4 h-4 text-rivora-green" />
+                        <ShoppingBag className="w-4 h-4 text-grocery-green" />
                         Your Items ({cartItems.length})
                       </h3>
                       {cartItems.map((item) => (
@@ -160,10 +160,10 @@ export default function CheckoutModal() {
                       </div>
                       <div className="flex justify-between text-sm text-gray-500">
                         <span>Delivery</span>
-                        <span className={deliveryFee === 0 ? 'text-rivora-green font-medium' : ''}>{deliveryFee === 0 ? 'FREE' : `₹${deliveryFee}`}</span>
+                        <span className={deliveryFee === 0 ? 'text-grocery-green font-medium' : ''}>{deliveryFee === 0 ? 'FREE' : `₹${deliveryFee}`}</span>
                       </div>
                       {discount > 0 && (
-                        <div className="flex justify-between text-sm text-rivora-green">
+                        <div className="flex justify-between text-sm text-grocery-green">
                           <span>10% Discount</span>
                           <span>-₹{discount.toLocaleString('en-IN')}</span>
                         </div>
@@ -177,7 +177,7 @@ export default function CheckoutModal() {
                     {/* Delivery Address */}
                     <div className="space-y-3">
                       <h3 className="text-sm font-semibold text-gray-900 flex items-center gap-2">
-                        <MapPin className="w-4 h-4 text-rivora-green" />
+                        <MapPin className="w-4 h-4 text-grocery-green" />
                         Delivery Address
                       </h3>
                       <div className="grid grid-cols-2 gap-3">
@@ -186,7 +186,7 @@ export default function CheckoutModal() {
                           <input
                             type="text" placeholder="Full Name" value={form.name}
                             onChange={(e) => updateForm('name', e.target.value)}
-                            className="w-full pl-10 pr-4 py-3 bg-gray-50 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-rivora-green/30 focus:border-rivora-green transition-all"
+                            className="w-full pl-10 pr-4 py-3 bg-gray-50 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-grocery-green/30 focus:border-grocery-green transition-all"
                           />
                         </div>
                         <div className="relative">
@@ -194,7 +194,7 @@ export default function CheckoutModal() {
                           <input
                             type="tel" placeholder="Phone Number" value={form.phone}
                             onChange={(e) => updateForm('phone', e.target.value)}
-                            className="w-full pl-10 pr-4 py-3 bg-gray-50 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-rivora-green/30 focus:border-rivora-green transition-all"
+                            className="w-full pl-10 pr-4 py-3 bg-gray-50 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-grocery-green/30 focus:border-grocery-green transition-all"
                           />
                         </div>
                       </div>
@@ -203,7 +203,7 @@ export default function CheckoutModal() {
                         value={form.address}
                         onChange={(e) => updateForm('address', e.target.value)}
                         rows={2}
-                        className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-rivora-green/30 focus:border-rivora-green transition-all resize-none"
+                        className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-grocery-green/30 focus:border-grocery-green transition-all resize-none"
                       />
                       <div className="grid grid-cols-2 gap-3">
                         <div className="relative">
@@ -211,13 +211,13 @@ export default function CheckoutModal() {
                           <input
                             type="text" placeholder="City" value={form.city}
                             onChange={(e) => updateForm('city', e.target.value)}
-                            className="w-full pl-10 pr-4 py-3 bg-gray-50 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-rivora-green/30 focus:border-rivora-green transition-all"
+                            className="w-full pl-10 pr-4 py-3 bg-gray-50 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-grocery-green/30 focus:border-grocery-green transition-all"
                           />
                         </div>
                         <input
                           type="text" placeholder="Pincode" value={form.pincode}
                           onChange={(e) => updateForm('pincode', e.target.value)}
-                          className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-rivora-green/30 focus:border-rivora-green transition-all"
+                          className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-grocery-green/30 focus:border-grocery-green transition-all"
                         />
                       </div>
                     </div>
@@ -234,7 +234,7 @@ export default function CheckoutModal() {
                     className="p-5 space-y-5"
                   >
                     <h3 className="text-sm font-semibold text-gray-900 flex items-center gap-2">
-                      <CreditCard className="w-4 h-4 text-rivora-green" />
+                      <CreditCard className="w-4 h-4 text-grocery-green" />
                       Select Payment Method
                     </h3>
 
@@ -251,23 +251,23 @@ export default function CheckoutModal() {
                         onClick={() => updateForm('paymentMethod', method.id)}
                         className={`w-full flex items-center gap-4 p-4 rounded-2xl border-2 transition-all text-left ${
                           form.paymentMethod === method.id
-                            ? 'border-rivora-green bg-rivora-green/5'
+                            ? 'border-grocery-green bg-grocery-green/5'
                             : 'border-gray-200 bg-white hover:border-gray-300'
                         }`}
                       >
                         <div className={`w-12 h-12 rounded-xl flex items-center justify-center ${
-                          form.paymentMethod === method.id ? 'bg-rivora-green/15' : 'bg-gray-100'
+                          form.paymentMethod === method.id ? 'bg-grocery-green/15' : 'bg-gray-100'
                         }`}>
-                          <method.icon className={`w-5 h-5 ${form.paymentMethod === method.id ? 'text-rivora-green' : 'text-gray-500'}`} />
+                          <method.icon className={`w-5 h-5 ${form.paymentMethod === method.id ? 'text-grocery-green' : 'text-gray-500'}`} />
                         </div>
                         <div className="flex-1">
                           <p className="text-sm font-semibold text-gray-900">{method.label}</p>
                           <p className="text-xs text-gray-500">{method.desc}</p>
                         </div>
                         <div className={`w-5 h-5 rounded-full border-2 flex items-center justify-center ${
-                          form.paymentMethod === method.id ? 'border-rivora-green' : 'border-gray-300'
+                          form.paymentMethod === method.id ? 'border-grocery-green' : 'border-gray-300'
                         }`}>
-                          {form.paymentMethod === method.id && <div className="w-2.5 h-2.5 rounded-full bg-rivora-green" />}
+                          {form.paymentMethod === method.id && <div className="w-2.5 h-2.5 rounded-full bg-grocery-green" />}
                         </div>
                       </motion.button>
                     ))}
@@ -282,13 +282,13 @@ export default function CheckoutModal() {
                           type="text" placeholder="Enter UPI ID (example@upi)"
                           value={form.upiId}
                           onChange={(e) => updateForm('upiId', e.target.value)}
-                          className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-rivora-green/30 focus:border-rivora-green transition-all"
+                          className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-grocery-green/30 focus:border-grocery-green transition-all"
                         />
                       </motion.div>
                     )}
 
                     {/* Order Summary */}
-                    <div className="p-4 rounded-2xl bg-rivora-green/5 border border-rivora-green/20 space-y-2">
+                    <div className="p-4 rounded-2xl bg-grocery-green/5 border border-grocery-green/20 space-y-2">
                       <div className="flex justify-between text-sm">
                         <span className="text-gray-600">Order Total</span>
                         <span className="font-bold text-gray-900">₹{finalTotal.toLocaleString('en-IN')}</span>
@@ -304,7 +304,7 @@ export default function CheckoutModal() {
                     </div>
 
                     <div className="flex items-center gap-2 text-xs text-gray-400">
-                      <ShieldCheck className="w-4 h-4 text-rivora-green" />
+                      <ShieldCheck className="w-4 h-4 text-grocery-green" />
                       Your payment is secure and encrypted
                     </div>
                   </motion.div>
@@ -322,9 +322,9 @@ export default function CheckoutModal() {
                       initial={{ scale: 0 }}
                       animate={{ scale: 1 }}
                       transition={{ type: 'spring', damping: 15, stiffness: 200, delay: 0.2 }}
-                      className="w-24 h-24 rounded-full bg-rivora-green/10 flex items-center justify-center mb-6"
+                      className="w-24 h-24 rounded-full bg-grocery-green/10 flex items-center justify-center mb-6"
                     >
-                      <CheckCircle2 className="w-12 h-12 text-rivora-green" />
+                      <CheckCircle2 className="w-12 h-12 text-grocery-green" />
                     </motion.div>
                     <motion.div
                       initial={{ opacity: 0, y: 10 }}
@@ -350,7 +350,7 @@ export default function CheckoutModal() {
                         whileHover={{ scale: 1.05 }}
                         whileTap={{ scale: 0.95 }}
                         onClick={() => { setCartOpen(false); setStep(0); }}
-                        className="px-8 py-3.5 bg-rivora-green text-white font-semibold rounded-2xl shadow-lg shadow-rivora-green/20"
+                        className="px-8 py-3.5 bg-grocery-green text-white font-semibold rounded-2xl shadow-lg shadow-grocery-green/20"
                       >
                         Continue Shopping
                       </motion.button>
@@ -361,7 +361,7 @@ export default function CheckoutModal() {
                       transition={{ delay: 0.8 }}
                       className="mt-6 flex items-center gap-2 text-xs text-gray-400"
                     >
-                      <Leaf className="w-3 h-3 text-rivora-green" />
+                      <Leaf className="w-3 h-3 text-grocery-green" />
                       Track your order in the app
                     </motion.div>
                   </motion.div>
@@ -374,7 +374,7 @@ export default function CheckoutModal() {
               <div className="border-t border-gray-100 p-5 space-y-4">
                 <div className="flex justify-between text-lg font-bold text-gray-900">
                   <span>Total</span>
-                  <span className="text-rivora-green">₹{finalTotal.toLocaleString('en-IN')}</span>
+                  <span className="text-grocery-green">₹{finalTotal.toLocaleString('en-IN')}</span>
                 </div>
 
                 <div className="flex gap-3">
@@ -395,7 +395,7 @@ export default function CheckoutModal() {
                     whileTap={{ scale: 0.98 }}
                     onClick={step === 0 ? () => setStep(1) : handlePlaceOrder}
                     disabled={step === 0 && (!form.name || !form.address || !form.city)}
-                    className="flex-1 flex items-center justify-center gap-2 py-3.5 bg-rivora-green text-white font-semibold rounded-2xl shadow-lg shadow-rivora-green/20 hover:bg-rivora-green/90 transition-colors disabled:opacity-40 disabled:cursor-not-allowed text-sm"
+                    className="flex-1 flex items-center justify-center gap-2 py-3.5 bg-grocery-green text-white font-semibold rounded-2xl shadow-lg shadow-grocery-green/20 hover:bg-grocery-green-light transition-colors disabled:opacity-40 disabled:cursor-not-allowed text-sm"
                   >
                     {processing ? (
                       <>

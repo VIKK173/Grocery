@@ -16,15 +16,14 @@ import { useStore } from '@/lib/store';
 
 const navLinks = [
   { label: 'Home', href: '#home' },
-  { label: 'Shop', href: '#shop' },
-  { label: 'Categories', href: '#categories' },
+  { label: 'Services', href: '#services' },
   { label: 'About Us', href: '#about' },
-  { label: 'Blog', href: '#blog' },
+  { label: 'Categories', href: '#categories' },
   { label: 'Contact', href: '#contact' },
 ];
 
 export default function Header() {
-  const { setSearchOpen, setCartOpen, setAuthOpen, setAuthMode, user, setUser, getCartCount } = useStore();
+  const { setSearchOpen, setCartOpen, setAuthOpen, setAuthMode, user, setUser } = useStore();
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
   const cartCount = useStore((s) => s.cartItems.reduce((c, i) => c + i.quantity, 0));
@@ -52,29 +51,33 @@ export default function Header() {
       transition={{ duration: 0.6, ease: 'easeOut' }}
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
         scrolled
-          ? 'bg-rivora-dark/95 backdrop-blur-md shadow-lg shadow-black/10'
+          ? 'bg-grocery-dark/95 backdrop-blur-md shadow-lg shadow-black/10'
           : 'bg-transparent'
       }`}
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16 md:h-20">
-          {/* Logo */}
+          {/* Logo - Matches screenshot */}
           <motion.a
             href="#home"
-            className="flex items-center gap-2 group"
+            className="flex items-center gap-2.5 group"
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
           >
-            <div className="w-10 h-10 rounded-xl bg-rivora-green flex items-center justify-center shadow-lg shadow-rivora-green/30">
-              <Leaf className="w-5 h-5 text-white" />
+            <div className="w-10 h-10 rounded-xl bg-grocery-yellow flex items-center justify-center shadow-lg shadow-grocery-yellow/30">
+              <svg className="w-5 h-5 text-grocery-darker" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z" />
+                <line x1="3" y1="6" x2="21" y2="6" />
+                <path d="M16 10a4 4 0 01-8 0" />
+              </svg>
             </div>
             <span className="text-xl font-bold text-white tracking-tight">
-              RIVORA<span className="text-rivora-green">FRESH</span>
+              Grocery
             </span>
           </motion.a>
 
           {/* Desktop Nav */}
-          <nav className="hidden lg:flex items-center gap-1">
+          <nav className="hidden lg:flex items-center gap-8">
             {navLinks.map((link, i) => (
               <motion.a
                 key={link.label}
@@ -82,10 +85,10 @@ export default function Header() {
                 initial={{ opacity: 0, y: -20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.1 * i, duration: 0.4 }}
-                className="relative px-4 py-2 text-sm font-medium text-white/80 hover:text-rivora-green transition-colors duration-300 group"
+                className="relative text-sm font-medium text-white/90 hover:text-grocery-yellow transition-colors duration-300 group"
               >
                 {link.label}
-                <span className="absolute bottom-0 left-1/2 -translate-x-1/2 w-0 h-0.5 bg-rivora-green rounded-full transition-all duration-300 group-hover:w-3/4" />
+                <span className="absolute bottom-0 left-1/2 -translate-x-1/2 w-0 h-0.5 bg-grocery-yellow rounded-full transition-all duration-300 group-hover:w-3/4" />
               </motion.a>
             ))}
           </nav>
@@ -97,18 +100,18 @@ export default function Header() {
               whileHover={{ scale: 1.1 }}
               whileTap={{ scale: 0.9 }}
               onClick={() => setSearchOpen(true)}
-              className="p-2.5 rounded-xl text-white/80 hover:text-rivora-green hover:bg-white/10 transition-all duration-300"
+              className="p-2.5 rounded-full text-white/80 hover:text-grocery-yellow hover:bg-white/10 transition-all duration-300"
               title="Search products"
             >
               <Search className="w-5 h-5" />
             </motion.button>
 
-            {/* User Icon - CLICKABLE (Login/Logout) */}
+            {/* User Icon - CLICKABLE */}
             <motion.button
               whileHover={{ scale: 1.1 }}
               whileTap={{ scale: 0.9 }}
               onClick={handleUserClick}
-              className="p-2.5 rounded-xl text-white/80 hover:text-rivora-green hover:bg-white/10 transition-all duration-300"
+              className="p-2.5 rounded-full text-white/80 hover:text-grocery-yellow hover:bg-white/10 transition-all duration-300"
               title={user ? 'Sign Out' : 'Sign In'}
             >
               {user ? <LogOut className="w-5 h-5" /> : <User className="w-5 h-5" />}
@@ -119,7 +122,7 @@ export default function Header() {
               whileHover={{ scale: 1.1 }}
               whileTap={{ scale: 0.9 }}
               onClick={() => setCartOpen(true)}
-              className="relative p-2.5 rounded-xl text-white/80 hover:text-rivora-green hover:bg-white/10 transition-all duration-300"
+              className="relative p-2.5 rounded-full bg-white/10 text-white/90 hover:bg-white/15 transition-all duration-300"
               title="Shopping Cart"
             >
               <ShoppingBag className="w-5 h-5" />
@@ -128,18 +131,35 @@ export default function Header() {
                   key={cartCount}
                   initial={{ scale: 0 }}
                   animate={{ scale: 1 }}
-                  className="absolute -top-1 -right-1 w-5 h-5 bg-rivora-green text-white text-[10px] font-bold rounded-full flex items-center justify-center"
+                  className="absolute -top-1 -right-1 w-5 h-5 bg-grocery-yellow text-grocery-darker text-[10px] font-bold rounded-full flex items-center justify-center"
                 >
                   {cartCount}
                 </motion.span>
               )}
             </motion.button>
 
+            {/* Sign Up Button (desktop) */}
+            <motion.button
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              onClick={() => {
+                if (user) {
+                  handleUserClick();
+                } else {
+                  setAuthMode('signup');
+                  setAuthOpen(true);
+                }
+              }}
+              className="hidden md:flex items-center px-5 py-2.5 bg-white text-grocery-dark font-semibold rounded-lg text-sm hover:bg-grocery-yellow transition-colors duration-300 shadow-md"
+            >
+              {user ? 'Sign Out' : 'Sign Up'}
+            </motion.button>
+
             {/* Mobile Menu Button */}
             <motion.button
               whileHover={{ scale: 1.1 }}
               whileTap={{ scale: 0.9 }}
-              className="lg:hidden p-2.5 rounded-xl text-white/80 hover:text-rivora-green hover:bg-white/10 transition-all duration-300"
+              className="lg:hidden p-2.5 rounded-full text-white/80 hover:text-grocery-yellow hover:bg-white/10 transition-all duration-300"
               onClick={() => setMobileOpen(!mobileOpen)}
             >
               {mobileOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
@@ -155,7 +175,7 @@ export default function Header() {
           animate={{ opacity: 1, height: 'auto' }}
           className="hidden lg:flex items-center justify-center gap-2 pb-2 text-xs text-white/40"
         >
-          <Leaf className="w-3 h-3 text-rivora-green" />
+          <Leaf className="w-3 h-3 text-grocery-lime" />
           Welcome, {user.name}!
         </motion.div>
       )}
@@ -168,12 +188,12 @@ export default function Header() {
             animate={{ opacity: 1, height: 'auto' }}
             exit={{ opacity: 0, height: 0 }}
             transition={{ duration: 0.3 }}
-            className="lg:hidden bg-rivora-dark/98 backdrop-blur-md border-t border-white/10 overflow-hidden"
+            className="lg:hidden bg-grocery-dark/98 backdrop-blur-md border-t border-white/10 overflow-hidden"
           >
             <nav className="px-4 py-4 space-y-1">
               {user && (
-                <div className="flex items-center gap-2 px-4 py-3 mb-2 rounded-xl bg-rivora-green/10 border border-rivora-green/20">
-                  <div className="w-8 h-8 rounded-full bg-rivora-green flex items-center justify-center text-white text-sm font-bold">
+                <div className="flex items-center gap-2 px-4 py-3 mb-2 rounded-xl bg-grocery-green/10 border border-grocery-green/20">
+                  <div className="w-8 h-8 rounded-full bg-grocery-yellow text-grocery-darker flex items-center justify-center text-sm font-bold">
                     {user.name[0].toUpperCase()}
                   </div>
                   <span className="text-sm font-medium text-white">{user.name}</span>
@@ -187,7 +207,7 @@ export default function Header() {
                   animate={{ opacity: 1, x: 0 }}
                   transition={{ delay: 0.05 * i }}
                   onClick={() => setMobileOpen(false)}
-                  className="flex items-center justify-between px-4 py-3 rounded-xl text-white/80 hover:text-rivora-green hover:bg-white/5 transition-all duration-300"
+                  className="flex items-center justify-between px-4 py-3 rounded-xl text-white/80 hover:text-grocery-yellow hover:bg-white/5 transition-all duration-300"
                 >
                   {link.label}
                   <ChevronRight className="w-4 h-4 opacity-50" />
@@ -201,7 +221,7 @@ export default function Header() {
                   handleUserClick();
                   setMobileOpen(false);
                 }}
-                className="w-full flex items-center justify-between px-4 py-3 rounded-xl text-white/80 hover:text-rivora-green hover:bg-white/5 transition-all duration-300"
+                className="w-full flex items-center justify-between px-4 py-3 rounded-xl text-white/80 hover:text-grocery-yellow hover:bg-white/5 transition-all duration-300"
               >
                 {user ? 'Sign Out' : 'Sign In'}
                 {user ? <LogOut className="w-4 h-4 opacity-50" /> : <ChevronRight className="w-4 h-4 opacity-50" />}

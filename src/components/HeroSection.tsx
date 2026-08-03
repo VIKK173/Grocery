@@ -8,9 +8,8 @@ import {
   Clock,
   Leaf,
   ChevronDown,
-  Smartphone,
-  Shield,
-  Truck,
+  Maximize2,
+  RefreshCw,
 } from 'lucide-react';
 import { useState } from 'react';
 import { categories } from '@/lib/data';
@@ -31,9 +30,7 @@ export default function HeroSection() {
   const { setCartOpen, setSearchOpen, user, setAuthOpen, setAuthMode } = useStore();
 
   const handleShopNow = () => {
-    if (selectedCategory) {
-      document.getElementById('shop')?.scrollIntoView({ behavior: 'smooth' });
-    }
+    document.getElementById('shop')?.scrollIntoView({ behavior: 'smooth' });
   };
 
   return (
@@ -41,13 +38,13 @@ export default function HeroSection() {
       id="home"
       className="relative min-h-screen flex items-center overflow-hidden hero-gradient"
     >
-      {/* Animated Background Elements */}
+      {/* Animated Background */}
       <div className="absolute inset-0 overflow-hidden">
-        <div className="absolute top-20 left-10 w-[500px] h-[500px] rounded-full bg-rivora-green/8 blur-[120px]" />
-        <div className="absolute bottom-20 right-20 w-[600px] h-[600px] rounded-full bg-rivora-lime/5 blur-[150px]" />
-        <div className="absolute top-1/2 left-1/3 w-[300px] h-[300px] rounded-full bg-rivora-yellow/5 blur-[100px]" />
+        <div className="absolute top-20 left-10 w-[500px] h-[500px] rounded-full bg-grocery-green/10 blur-[120px]" />
+        <div className="absolute bottom-20 right-20 w-[600px] h-[600px] rounded-full bg-grocery-green-light/8 blur-[150px]" />
+        <div className="absolute top-1/2 left-1/3 w-[300px] h-[300px] rounded-full bg-grocery-yellow/5 blur-[100px]" />
 
-        {/* Grid pattern */}
+        {/* Subtle dot pattern */}
         <div
           className="absolute inset-0 opacity-[0.03]"
           style={{
@@ -56,14 +53,15 @@ export default function HeroSection() {
           }}
         />
 
-        {[...Array(8)].map((_, i) => (
+        {/* Floating particles */}
+        {[...Array(6)].map((_, i) => (
           <motion.div
             key={i}
-            className="absolute rounded-full bg-rivora-lime/20"
+            className="absolute rounded-full bg-grocery-lime/20"
             style={{
               width: 3 + Math.random() * 4,
               height: 3 + Math.random() * 4,
-              left: `${10 + i * 12}%`,
+              left: `${10 + i * 15}%`,
               top: `${15 + (i % 4) * 20}%`,
             }}
             animate={{ y: [0, -25, 0], opacity: [0.2, 0.7, 0.2], scale: [1, 1.5, 1] }}
@@ -74,50 +72,43 @@ export default function HeroSection() {
 
       <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-28 pb-20 w-full">
         <div className="grid lg:grid-cols-2 gap-16 items-center">
+
           {/* Left Content */}
           <motion.div variants={containerVariants} initial="hidden" animate="visible">
-            {/* Badge */}
+            {/* Trust Badge */}
             <motion.div variants={itemVariants}>
-              <div className="inline-flex items-center gap-2.5 px-5 py-2.5 rounded-full glass mb-8">
-                <div className="w-2 h-2 rounded-full bg-rivora-lime animate-pulse" />
-                <span className="text-sm font-medium text-white/80">
-                  Food Delivery Service & Restaurant
+              <div className="inline-flex items-center gap-2.5 px-5 py-2.5 rounded-full glass-card mb-8">
+                <Leaf className="w-4 h-4 text-grocery-lime" />
+                <span className="text-sm font-medium text-white/70">
+                  Food Delivery Service &amp; Restaurant
                 </span>
               </div>
             </motion.div>
 
-            {/* Headline */}
+            {/* Main Headline */}
             <motion.h1
               variants={itemVariants}
-              className="text-5xl sm:text-6xl lg:text-7xl xl:text-[5.5rem] font-black leading-[0.95] tracking-tight"
+              className="text-5xl sm:text-6xl lg:text-7xl font-extrabold leading-[0.95] tracking-tight"
             >
               <span className="text-white">Get Fresh</span>
               <br />
-              <span className="gradient-text">Grocery</span>
+              <span className="text-white">Grocery</span>
               <br />
-              <span className="text-white">Delivered</span>
+              <span className="text-white/70">Enjoy healthy life.</span>
             </motion.h1>
 
-            <motion.p
-              variants={itemVariants}
-              className="mt-6 text-lg md:text-xl text-white/50 max-w-lg leading-relaxed"
-            >
-              Enjoy a healthy life with premium organic fruits & vegetables
-              delivered fresh to your doorstep within hours.
-            </motion.p>
-
-            {/* Category Selector + Shop Now */}
+            {/* CTA Buttons */}
             <motion.div variants={itemVariants} className="mt-10">
-              <div className="flex flex-col sm:flex-row gap-3">
+              <div className="flex flex-col sm:flex-row gap-4">
                 <div className="relative flex-1">
                   <select
                     value={selectedCategory}
                     onChange={(e) => setSelectedCategory(e.target.value)}
-                    className="w-full appearance-none bg-white/10 backdrop-blur-md border border-white/10 text-white rounded-2xl px-5 py-4 pr-12 text-sm font-medium outline-none focus:border-rivora-lime/50 transition-all cursor-pointer"
+                    className="w-full appearance-none bg-white/10 backdrop-blur-md border border-white/10 text-white rounded-xl px-5 py-4 pr-12 text-sm font-medium outline-none focus:border-grocery-yellow/50 transition-all cursor-pointer"
                   >
-                    <option value="" className="bg-rivora-darker text-white">Select Category</option>
+                    <option value="" className="bg-grocery-darker text-white">Select Category</option>
                     {categories.map((cat) => (
-                      <option key={cat.slug} value={cat.slug} className="bg-rivora-darker text-white">
+                      <option key={cat.slug} value={cat.slug} className="bg-grocery-darker text-white">
                         {cat.name}
                       </option>
                     ))}
@@ -125,24 +116,24 @@ export default function HeroSection() {
                   <ChevronDown className="absolute right-4 top-1/2 -translate-y-1/2 w-5 h-5 text-white/50 pointer-events-none" />
                 </div>
                 <motion.button
-                  whileHover={{ scale: 1.03, boxShadow: '0 15px 40px rgba(163,230,53,0.4)' }}
+                  whileHover={{ scale: 1.03 }}
                   whileTap={{ scale: 0.97 }}
                   onClick={handleShopNow}
-                  className="px-8 py-4 bg-gradient-to-r from-rivora-lime to-rivora-green text-rivora-darker font-bold rounded-2xl shadow-xl shadow-rivora-lime/20 text-sm tracking-wide"
+                  className="px-8 py-4 bg-grocery-yellow text-grocery-darker font-bold rounded-xl shadow-xl text-sm tracking-wide yellow-glow transition-all"
                 >
                   Shop Now
                   <ArrowRight className="inline w-4 h-4 ml-2" />
                 </motion.button>
               </div>
 
-              {/* Secondary link */}
+              {/* Not yet member */}
               <p className="mt-4 text-sm text-white/40">
-                Not yet a member?{' '}
+                Not yet Member?{' '}
                 <button
                   onClick={() => { setAuthMode('signup'); setAuthOpen(true); }}
-                  className="text-rivora-lime font-semibold hover:text-white transition-colors"
+                  className="text-grocery-yellow font-semibold hover:text-white transition-colors underline underline-offset-2"
                 >
-                  Sign Up Now
+                  Sign Up Now.
                 </button>
               </p>
             </motion.div>
@@ -153,9 +144,9 @@ export default function HeroSection() {
               className="mt-12"
             >
               <motion.div
-                initial={{ rotate: -3 }}
+                initial={{ rotate: -2 }}
                 whileHover={{ rotate: 0 }}
-                className="inline-flex items-center gap-4 px-6 py-4 rounded-2xl glass p-6"
+                className="inline-flex items-center gap-4 px-6 py-4 rounded-2xl glass-card"
               >
                 <div className="flex -space-x-3">
                   {['photo-1494790108377-be9c29b29330', 'photo-1507003211169-0a1dd7228f2d', 'photo-1438761681033-6461ffad8d80'].map((id, i) => (
@@ -163,19 +154,19 @@ export default function HeroSection() {
                       key={i}
                       src={`https://images.unsplash.com/${id}?w=40&h=40&fit=crop&crop=face`}
                       alt={`Customer ${i + 1}`}
-                      className="w-10 h-10 rounded-full border-2 border-rivora-dark object-cover"
+                      className="w-10 h-10 rounded-full border-2 border-grocery-dark object-cover"
                     />
                   ))}
                 </div>
                 <div>
-                  <div className="flex items-center gap-1">
-                    <Star className="w-4 h-4 fill-rivora-yellow text-rivora-yellow" />
-                    <span className="text-sm font-bold text-white">4.8</span>
-                    <span className="text-xs text-white/40">(4.8k Reviews)</span>
+                  <p className="text-sm font-bold text-white">Our Happy Customer</p>
+                  <div className="flex items-center gap-1 mt-0.5">
+                    {[...Array(5)].map((_, i) => (
+                      <Star key={i} className="w-3.5 h-3.5 text-grocery-yellow fill-grocery-yellow" />
+                    ))}
+                    <span className="text-xs text-white/50 ml-1">4.8</span>
                   </div>
-                  <p className="text-xs text-white/50">Our Happy Customers</p>
                 </div>
-                <div className="w-12 h-1 rounded-full bg-rivora-yellow/40" />
               </motion.div>
             </motion.div>
 
@@ -185,7 +176,7 @@ export default function HeroSection() {
               <div className="flex gap-3">
                 <motion.button whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}
                   className="flex items-center gap-2.5 px-5 py-3 rounded-xl bg-white/10 border border-white/10 hover:bg-white/15 transition-colors">
-                  <svg className="w-5 h-5 text-white" viewBox="0 0 24 24" fill="currentColor"><path d="M17.523 2.232l1.645-1.645a.5.5 0 00-.708-.708L16.5 1.845 1.845 16.5l1.967 1.967-1.645 1.645a.5.5 0 00.708.708L3.5 19.155 19.155 3.5l-1.967-1.967z"/></svg>
+                  <svg className="w-5 h-5 text-white" viewBox="0 0 24 24" fill="currentColor"><path d="M3.609 1.814L13.792 12 3.61 22.186a.996.996 0 01-.61-.92V2.734a1 1 0 01.609-.92zm10.89 10.893l2.302 2.302-10.937 6.333 8.635-8.635zm3.199-3.199l2.302 2.302a1 1 0 010 1.38l-2.302 2.302L15.396 13l2.302-2.492zM5.864 2.658L16.8 8.99l-2.302 2.302-8.635-8.635z"/></svg>
                   <div className="text-left">
                     <p className="text-[10px] text-white/50">GET IT ON</p>
                     <p className="text-sm font-semibold text-white">Google Play</p>
@@ -203,41 +194,42 @@ export default function HeroSection() {
             </motion.div>
           </motion.div>
 
-          {/* Right - Hero Visual with Floating Cards */}
+          {/* Right - Hero Visual with Delivery Person */}
           <motion.div
             initial={{ opacity: 0, scale: 0.85, x: 60 }}
             animate={{ opacity: 1, scale: 1, x: 0 }}
             transition={{ duration: 1, delay: 0.4, ease: [0.22, 1, 0.36, 1] }}
             className="relative hidden lg:block"
           >
-            {/* Background circle */}
+            {/* Background circle glow */}
             <div className="absolute inset-0 flex items-center justify-center">
-              <div className="w-[450px] h-[450px] rounded-full bg-gradient-to-br from-rivora-green/15 to-rivora-lime/10 blur-sm" />
+              <div className="w-[480px] h-[480px] rounded-full bg-gradient-to-br from-grocery-green/20 to-grocery-green-light/10 blur-sm" />
             </div>
 
-            {/* Main Image */}
+            {/* Main Image - Delivery Person */}
             <motion.div
-              animate={{ y: [0, -12, 0] }}
+              animate={{ y: [0, -10, 0] }}
               transition={{ duration: 5, repeat: Infinity, ease: 'easeInOut' }}
               className="relative z-10"
             >
               <img
-                src="https://z-cdn.chatglm.cn/image-search-mcp/images-ppt/af8eea555b4d.jpg"
-                alt="Fresh organic produce"
-                className="w-full h-[480px] object-cover rounded-[2rem] shadow-2xl"
+                src="https://images.unsplash.com/photo-1526367790999-0150786686a2?w=600&h=700&fit=crop&crop=person"
+                alt="Delivery person with fresh groceries"
+                className="w-full h-[520px] object-cover object-top rounded-[2rem] shadow-2xl"
+                style={{ filter: 'contrast(1.05) brightness(1.05)' }}
               />
             </motion.div>
 
-            {/* Floating Card: 100% Fresh */}
+            {/* Floating Card: 100% Fresh (top-right) */}
             <motion.div
               className="absolute -top-4 -right-4 z-20"
               animate={{ y: [0, -8, 0], rotate: [0, 2, 0] }}
               transition={{ duration: 4, repeat: Infinity, ease: 'easeInOut' }}
             >
-              <div className="px-4 py-3 rounded-2xl glass shadow-xl">
+              <div className="px-4 py-3 rounded-2xl glass-card shadow-xl">
                 <div className="flex items-center gap-2.5">
-                  <div className="w-10 h-10 rounded-xl bg-rivora-green/20 flex items-center justify-center">
-                    <Leaf className="w-5 h-5 text-rivora-lime" />
+                  <div className="w-10 h-10 rounded-xl bg-grocery-green/30 flex items-center justify-center">
+                    <Leaf className="w-5 h-5 text-grocery-lime" />
                   </div>
                   <div>
                     <p className="text-sm font-bold text-white">100% Fresh</p>
@@ -247,16 +239,27 @@ export default function HeroSection() {
               </div>
             </motion.div>
 
-            {/* Floating Card: Location */}
+            {/* Floating Card: Location Pin (top-left) */}
             <motion.div
-              className="absolute top-1/3 -left-8 z-20"
+              className="absolute top-16 -left-8 z-20"
               animate={{ y: [0, -10, 0], x: [0, 5, 0] }}
               transition={{ duration: 5, repeat: Infinity, ease: 'easeInOut', delay: 0.5 }}
             >
-              <div className="px-4 py-3 rounded-2xl glass shadow-xl">
+              <div className="w-12 h-12 rounded-full bg-grocery-red shadow-xl flex items-center justify-center">
+                <MapPin className="w-5 h-5 text-white" />
+              </div>
+            </motion.div>
+
+            {/* Floating Card: Live Tracking (left) */}
+            <motion.div
+              className="absolute top-1/3 -left-10 z-20"
+              animate={{ y: [0, -12, 0] }}
+              transition={{ duration: 4.5, repeat: Infinity, ease: 'easeInOut', delay: 0.3 }}
+            >
+              <div className="px-4 py-3 rounded-2xl glass-card shadow-xl">
                 <div className="flex items-center gap-2.5">
-                  <div className="w-10 h-10 rounded-xl bg-rose-500/20 flex items-center justify-center">
-                    <MapPin className="w-5 h-5 text-rose-400" />
+                  <div className="w-10 h-10 rounded-xl bg-blue-500/20 flex items-center justify-center">
+                    <MapPin className="w-5 h-5 text-blue-400" />
                   </div>
                   <div>
                     <p className="text-sm font-bold text-white">Live Tracking</p>
@@ -266,16 +269,16 @@ export default function HeroSection() {
               </div>
             </motion.div>
 
-            {/* Floating Card: Fast Delivery */}
+            {/* Floating Card: 30 Min Fast Delivery (bottom-left) */}
             <motion.div
-              className="absolute bottom-16 -left-6 z-20"
+              className="absolute bottom-24 -left-6 z-20"
               animate={{ y: [0, -8, 0], rotate: [0, -2, 0] }}
               transition={{ duration: 3.5, repeat: Infinity, ease: 'easeInOut', delay: 1 }}
             >
-              <div className="px-4 py-3 rounded-2xl glass shadow-xl">
+              <div className="px-4 py-3 rounded-2xl glass-card shadow-xl">
                 <div className="flex items-center gap-2.5">
-                  <div className="w-10 h-10 rounded-xl bg-rivora-yellow/20 flex items-center justify-center">
-                    <Clock className="w-5 h-5 text-rivora-yellow" />
+                  <div className="w-10 h-10 rounded-xl bg-grocery-yellow/20 flex items-center justify-center">
+                    <Clock className="w-5 h-5 text-grocery-yellow" />
                   </div>
                   <div>
                     <p className="text-sm font-bold text-white">30 Min</p>
@@ -285,15 +288,25 @@ export default function HeroSection() {
               </div>
             </motion.div>
 
-            {/* Floating Card: Discount */}
+            {/* Floating Card: Expand icon (right-middle) */}
             <motion.div
-              className="absolute bottom-4 right-8 z-20"
-              animate={{ y: [0, -12, 0], rotate: [0, 3, 0] }}
-              transition={{ duration: 4.5, repeat: Infinity, ease: 'easeInOut', delay: 0.8 }}
+              className="absolute top-1/2 -right-6 z-20"
+              animate={{ y: [0, -6, 0] }}
+              transition={{ duration: 3, repeat: Infinity, ease: 'easeInOut', delay: 1.5 }}
             >
-              <div className="px-4 py-3 rounded-2xl bg-gradient-to-r from-rivora-yellow to-amber-400 shadow-xl">
-                <p className="text-xs font-bold text-rivora-darker">20% OFF</p>
-                <p className="text-[10px] text-rivora-darker/70">First Order</p>
+              <div className="w-10 h-10 rounded-full bg-white/10 backdrop-blur-sm flex items-center justify-center border border-white/10">
+                <Maximize2 className="w-4 h-4 text-white/70" />
+              </div>
+            </motion.div>
+
+            {/* Floating Card: Refresh icon (bottom-right) */}
+            <motion.div
+              className="absolute bottom-8 right-4 z-20"
+              animate={{ y: [0, -6, 0], rotate: [0, 45, 0] }}
+              transition={{ duration: 4, repeat: Infinity, ease: 'easeInOut', delay: 0.8 }}
+            >
+              <div className="w-10 h-10 rounded-full bg-white/10 backdrop-blur-sm flex items-center justify-center border border-white/10">
+                <RefreshCw className="w-4 h-4 text-white/70" />
               </div>
             </motion.div>
           </motion.div>
@@ -301,7 +314,7 @@ export default function HeroSection() {
       </div>
 
       {/* Bottom gradient fade */}
-      <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-rivora-light to-transparent" />
+      <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-grocery-light to-transparent" />
     </section>
   );
 }

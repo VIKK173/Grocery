@@ -40,7 +40,7 @@ export default function NewsletterSection() {
       const data = await res.json();
       showToast(data.message || 'Subscribed!', data.success ? 'success' : 'error');
     } catch {
-      showToast('Subscribed successfully! 🎉', 'success');
+      showToast('Subscribed successfully!', 'success');
     }
 
     setSubscribed(true);
@@ -58,25 +58,25 @@ export default function NewsletterSection() {
           variants={containerVariants}
           initial="hidden"
           animate={isInView ? 'visible' : 'hidden'}
-          className="relative rounded-[2rem] overflow-hidden bg-gradient-to-r from-rivora-dark via-emerald-900 to-rivora-dark shadow-2xl"
+          className="relative rounded-[2rem] overflow-hidden hero-gradient shadow-2xl"
         >
           {/* Decorative elements */}
-          <div className="absolute top-0 right-0 w-64 h-64 bg-rivora-green/10 rounded-full blur-3xl" />
-          <div className="absolute bottom-0 left-0 w-48 h-48 bg-rivora-green/5 rounded-full blur-3xl" />
+          <div className="absolute top-0 right-0 w-64 h-64 bg-grocery-green/10 rounded-full blur-3xl" />
+          <div className="absolute bottom-0 left-0 w-48 h-48 bg-grocery-yellow/5 rounded-full blur-3xl" />
 
           <div className="relative z-10 flex flex-col md:flex-row items-center justify-between gap-8 p-8 md:p-12 lg:p-16">
-            {/* Left - Icon & Text */}
+            {/* Left */}
             <motion.div variants={itemVariants} className="flex items-center gap-6">
               <motion.div
                 whileHover={{ rotate: 10, scale: 1.1 }}
-                className="flex-shrink-0 w-16 h-16 rounded-2xl bg-rivora-green/20 flex items-center justify-center"
+                className="flex-shrink-0 w-16 h-16 rounded-2xl bg-grocery-green/20 flex items-center justify-center"
               >
-                <Mail className="w-7 h-7 text-rivora-green" />
+                <Mail className="w-7 h-7 text-grocery-lime" />
               </motion.div>
               <div>
                 <h3 className="text-2xl md:text-3xl font-bold text-white">
                   Subscribe to our{' '}
-                  <span className="text-rivora-green">Newsletter</span>
+                  <span className="text-grocery-yellow">Newsletter</span>
                 </h3>
                 <p className="mt-2 text-white/50 max-w-md">
                   Get the latest updates on new products, special offers, and
@@ -85,10 +85,10 @@ export default function NewsletterSection() {
               </div>
             </motion.div>
 
-            {/* Right - Email Input */}
+            {/* Right */}
             <motion.div variants={itemVariants} className="w-full md:w-auto flex-shrink-0">
               <form onSubmit={handleSubscribe}>
-                <div className="flex items-center bg-white/10 backdrop-blur-sm rounded-2xl p-1.5 border border-white/10">
+                <div className="flex items-center bg-white/10 backdrop-blur-sm rounded-xl p-1.5 border border-white/10">
                   <input
                     type="email"
                     value={email}
@@ -102,7 +102,7 @@ export default function NewsletterSection() {
                     whileTap={{ scale: 0.95 }}
                     type="submit"
                     disabled={loading || subscribed}
-                    className="flex items-center gap-2 px-6 py-3.5 bg-rivora-green text-white font-semibold rounded-xl hover:bg-rivora-green-dark transition-colors shadow-lg shadow-rivora-green/20 disabled:opacity-60"
+                    className="flex items-center gap-2 px-6 py-3.5 bg-grocery-yellow text-grocery-darker font-semibold rounded-lg hover:bg-grocery-yellow-dark transition-colors shadow-lg disabled:opacity-60"
                   >
                     {subscribed ? (
                       <CheckCircle className="w-4 h-4" />

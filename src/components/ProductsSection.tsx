@@ -36,7 +36,7 @@ function ProductCard({ product }: { product: typeof featuredProducts[0] }) {
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
       whileHover={{ y: -8 }}
-      className="group relative bg-white rounded-3xl overflow-hidden shadow-sm hover:shadow-xl transition-shadow duration-500 cursor-pointer"
+      className="group relative bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-shadow duration-500 cursor-pointer"
     >
       {/* Badge */}
       {product.badge && (
@@ -47,7 +47,7 @@ function ProductCard({ product }: { product: typeof featuredProducts[0] }) {
         </div>
       )}
 
-      {/* Wishlist - CLICKABLE */}
+      {/* Wishlist */}
       <motion.button
         whileHover={{ scale: 1.2 }}
         whileTap={{ scale: 0.8 }}
@@ -84,7 +84,7 @@ function ProductCard({ product }: { product: typeof featuredProducts[0] }) {
           <motion.button
             whileHover={{ scale: 1.1 }}
             whileTap={{ scale: 0.9 }}
-            className="w-9 h-9 rounded-full bg-white shadow-md flex items-center justify-center text-gray-600 hover:text-rivora-green transition-colors"
+            className="w-9 h-9 rounded-full bg-white shadow-md flex items-center justify-center text-gray-600 hover:text-grocery-green transition-colors"
           >
             <Eye className="w-4 h-4" />
           </motion.button>
@@ -95,7 +95,7 @@ function ProductCard({ product }: { product: typeof featuredProducts[0] }) {
               e.stopPropagation();
               addToCart(product);
             }}
-            className="w-9 h-9 rounded-full bg-rivora-green shadow-md flex items-center justify-center text-white"
+            className="w-9 h-9 rounded-full bg-grocery-green shadow-md flex items-center justify-center text-white"
           >
             <ShoppingBag className="w-4 h-4" />
           </motion.button>
@@ -122,12 +122,12 @@ function ProductCard({ product }: { product: typeof featuredProducts[0] }) {
           <span className="text-xs text-gray-400 ml-1">({product.reviews})</span>
         </div>
 
-        <h3 className="text-base font-semibold text-gray-800 group-hover:text-rivora-green-dark transition-colors">
+        <h3 className="text-base font-semibold text-gray-800 group-hover:text-grocery-green transition-colors">
           {product.name}
         </h3>
 
         <div className="flex items-center gap-2 mt-2">
-          <span className="text-lg font-bold text-rivora-green-dark">
+          <span className="text-lg font-bold text-grocery-dark">
             ₹{product.price.toLocaleString('en-IN')}
           </span>
           {product.originalPrice && (
@@ -148,7 +148,6 @@ export default function ProductsSection() {
   return (
     <section id="shop" className="py-16 md:py-24 bg-white">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8" ref={ref}>
-        {/* Section Header */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
@@ -158,7 +157,7 @@ export default function ProductsSection() {
           <div>
             <h2 className="text-3xl md:text-4xl font-bold text-gray-900">
               Best Selling{' '}
-              <span className="text-rivora-green">Products</span>
+              <span className="text-grocery-green">Products</span>
             </h2>
             <p className="mt-2 text-gray-500 text-lg">
               Most popular items chosen by our customers
@@ -167,14 +166,13 @@ export default function ProductsSection() {
           <motion.a
             href="#shop"
             whileHover={{ x: 5 }}
-            className="hidden md:flex items-center gap-1 text-rivora-green-dark font-medium hover:text-rivora-green transition-colors"
+            className="hidden md:flex items-center gap-1 text-grocery-green font-medium hover:text-grocery-green-light transition-colors"
           >
             View All Products
             <ArrowRight className="w-4 h-4" />
           </motion.a>
         </motion.div>
 
-        {/* Products Grid */}
         <motion.div
           variants={containerVariants}
           initial="hidden"

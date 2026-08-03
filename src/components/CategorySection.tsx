@@ -10,37 +10,37 @@ const categories = [
     name: 'Fresh Fruits',
     count: 32,
     image: 'https://z-cdn.chatglm.cn/image-search-mcp/images-ppt/6833ccbfa961.webp',
-    color: 'from-rose-100 to-rose-50',
+    color: 'bg-gradient-to-br from-rose-100 to-rose-50',
   },
   {
     name: 'Vegetables',
     count: 28,
     image: 'https://images.unsplash.com/photo-1540420773420-3366772f4999?w=200&h=200&fit=crop',
-    color: 'from-emerald-100 to-emerald-50',
+    color: 'bg-gradient-to-br from-emerald-100 to-emerald-50',
   },
   {
     name: 'Leafy Greens',
     count: 18,
     image: 'https://z-cdn.chatglm.cn/image-search-mcp/images-ppt/480b534feb78.png',
-    color: 'from-lime-100 to-lime-50',
+    color: 'bg-gradient-to-br from-lime-100 to-lime-50',
   },
   {
     name: 'Herbs & Spices',
     count: 24,
     image: 'https://images.unsplash.com/photo-1596040033229-a9821ebd058d?w=200&h=200&fit=crop',
-    color: 'from-amber-100 to-amber-50',
+    color: 'bg-gradient-to-br from-amber-100 to-amber-50',
   },
   {
     name: 'Fresh Juices',
     count: 15,
     image: 'https://images.unsplash.com/photo-1622597467836-f3285f2131b8?w=200&h=200&fit=crop',
-    color: 'from-orange-100 to-orange-50',
+    color: 'bg-gradient-to-br from-orange-100 to-orange-50',
   },
   {
     name: 'Organic',
     count: 21,
     image: 'https://images.unsplash.com/photo-1590868309231-e006f37b003a?w=200&h=200&fit=crop',
-    color: 'from-teal-100 to-teal-50',
+    color: 'bg-gradient-to-br from-teal-100 to-teal-50',
   },
 ];
 
@@ -97,7 +97,7 @@ export default function CategorySection() {
           <div>
             <h2 className="text-3xl md:text-4xl font-bold text-gray-900">
               Shop by{' '}
-              <span className="text-rivora-green">Category</span>
+              <span className="text-grocery-green">Category</span>
             </h2>
             <p className="mt-2 text-gray-500 text-lg">
               Browse our wide selection of fresh produce
@@ -106,7 +106,7 @@ export default function CategorySection() {
           <motion.a
             href="#"
             whileHover={{ x: 5 }}
-            className="hidden md:flex items-center gap-1 text-rivora-green-dark font-medium hover:text-rivora-green transition-colors"
+            className="hidden md:flex items-center gap-1 text-grocery-green font-medium hover:text-grocery-green-light transition-colors"
           >
             View All Categories
             <ArrowRight className="w-4 h-4" />
@@ -115,7 +115,6 @@ export default function CategorySection() {
 
         {/* Category Cards */}
         <div className="relative group">
-          {/* Scroll Buttons */}
           {canScrollLeft && (
             <motion.button
               initial={{ opacity: 0 }}
@@ -123,7 +122,7 @@ export default function CategorySection() {
               whileHover={{ scale: 1.1 }}
               whileTap={{ scale: 0.9 }}
               onClick={() => scroll('left')}
-              className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-2 z-20 w-10 h-10 bg-white rounded-full shadow-lg flex items-center justify-center text-gray-600 hover:text-rivora-green transition-colors"
+              className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-2 z-20 w-10 h-10 bg-white rounded-full shadow-lg flex items-center justify-center text-gray-600 hover:text-grocery-green transition-colors"
             >
               <ChevronLeft className="w-5 h-5" />
             </motion.button>
@@ -135,7 +134,7 @@ export default function CategorySection() {
               whileHover={{ scale: 1.1 }}
               whileTap={{ scale: 0.9 }}
               onClick={() => scroll('right')}
-              className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-2 z-20 w-10 h-10 bg-white rounded-full shadow-lg flex items-center justify-center text-gray-600 hover:text-rivora-green transition-colors"
+              className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-2 z-20 w-10 h-10 bg-white rounded-full shadow-lg flex items-center justify-center text-gray-600 hover:text-grocery-green transition-colors"
             >
               <ChevronRight className="w-5 h-5" />
             </motion.button>
@@ -158,7 +157,7 @@ export default function CategorySection() {
                 className="flex-shrink-0 w-48 md:w-56 snap-center cursor-pointer group"
               >
                 <div
-                  className={`relative w-full h-48 md:h-56 rounded-3xl bg-gradient-to-br ${cat.color} p-6 flex flex-col justify-between overflow-hidden transition-shadow duration-300 group-hover:shadow-xl`}
+                  className={`relative w-full h-48 md:h-56 rounded-2xl ${cat.color} p-6 flex flex-col justify-between overflow-hidden transition-shadow duration-300 group-hover:shadow-xl`}
                 >
                   <div className="relative z-10">
                     <p className="text-sm font-medium text-gray-500">{cat.count} Items</p>
@@ -176,11 +175,10 @@ export default function CategorySection() {
                       className="w-24 h-24 md:w-28 md:h-28 object-cover rounded-2xl shadow-lg"
                     />
                   </motion.div>
-                  {/* Hover Arrow */}
                   <motion.div
                     className="absolute top-4 right-4 w-8 h-8 bg-white/80 rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300"
                   >
-                    <ArrowRight className="w-4 h-4 text-rivora-green" />
+                    <ArrowRight className="w-4 h-4 text-grocery-green" />
                   </motion.div>
                 </div>
               </motion.div>

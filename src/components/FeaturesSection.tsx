@@ -5,12 +5,12 @@ import { motion, useInView } from 'framer-motion';
 import { Truck, Leaf, Shield, Clock, Headphones, CreditCard } from 'lucide-react';
 
 const features = [
-  { icon: Truck, title: 'Free Delivery', desc: 'Free delivery on all orders above ₹299. Fast and reliable shipping across the city.', color: 'from-blue-500/20 to-cyan-500/20', iconColor: 'text-blue-400' },
-  { icon: Leaf, title: '100% Organic', desc: 'All our products are certified organic and sourced directly from trusted farms.', color: 'from-emerald-500/20 to-green-500/20', iconColor: 'text-emerald-400' },
-  { icon: Shield, title: 'Secure Payment', desc: 'Your payments are protected with industry-standard encryption and security.', color: 'from-violet-500/20 to-purple-500/20', iconColor: 'text-violet-400' },
-  { icon: Clock, title: 'Fast Delivery', desc: 'Get your groceries delivered within 30 minutes. Freshness guaranteed.', color: 'from-amber-500/20 to-yellow-500/20', iconColor: 'text-amber-400' },
-  { icon: Headphones, title: '24/7 Support', desc: 'Our customer support team is always available to help you with any queries.', color: 'from-rose-500/20 to-pink-500/20', iconColor: 'text-rose-400' },
-  { icon: CreditCard, title: 'Easy Returns', desc: 'Not satisfied? Get a full refund with our hassle-free return policy.', color: 'from-teal-500/20 to-emerald-500/20', iconColor: 'text-teal-400' },
+  { icon: Truck, title: 'Free Delivery', desc: 'Free delivery on all orders above ₹299. Fast and reliable shipping across the city.', color: 'bg-blue-500/10', iconColor: 'text-blue-500' },
+  { icon: Leaf, title: '100% Organic', desc: 'All our products are certified organic and sourced directly from trusted farms.', color: 'bg-emerald-500/10', iconColor: 'text-emerald-500' },
+  { icon: Shield, title: 'Secure Payment', desc: 'Your payments are protected with industry-standard encryption and security.', color: 'bg-violet-500/10', iconColor: 'text-violet-500' },
+  { icon: Clock, title: 'Fast Delivery', desc: 'Get your groceries delivered within 30 minutes. Freshness guaranteed.', color: 'bg-amber-500/10', iconColor: 'text-amber-500' },
+  { icon: Headphones, title: '24/7 Support', desc: 'Our customer support team is always available to help you with any queries.', color: 'bg-rose-500/10', iconColor: 'text-rose-500' },
+  { icon: CreditCard, title: 'Easy Returns', desc: 'Not satisfied? Get a full refund with our hassle-free return policy.', color: 'bg-teal-500/10', iconColor: 'text-teal-500' },
 ];
 
 const containerVariants = {
@@ -28,7 +28,7 @@ export default function FeaturesSection() {
   const isInView = useInView(ref, { once: true, margin: '-80px' });
 
   return (
-    <section className="py-20 md:py-28 bg-rivora-light">
+    <section id="services" className="py-20 md:py-28 bg-grocery-light">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8" ref={ref}>
         {/* Header */}
         <motion.div
@@ -37,11 +37,12 @@ export default function FeaturesSection() {
           transition={{ duration: 0.5 }}
           className="text-center max-w-2xl mx-auto mb-16"
         >
-          <span className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-rivora-green/10 text-rivora-green text-sm font-medium mb-4">
+          <span className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-grocery-green/10 text-grocery-green text-sm font-medium mb-4">
+            <Leaf className="w-3.5 h-3.5" />
             Why Choose Us
           </span>
           <h2 className="text-3xl md:text-5xl font-bold text-gray-900">
-            We Provide <span className="text-rivora-green">Best Services</span>
+            We Provide <span className="text-grocery-green">Best Services</span>
           </h2>
           <p className="mt-4 text-gray-500 text-lg">
             Experience the premium difference with our curated selection of organic
@@ -61,13 +62,10 @@ export default function FeaturesSection() {
               key={feat.title}
               variants={cardVariants}
               whileHover={{ y: -6, scale: 1.02 }}
-              className="group relative p-8 rounded-3xl bg-white shadow-sm hover:shadow-xl transition-all duration-500 overflow-hidden"
+              className="group relative p-8 rounded-2xl bg-white shadow-sm hover:shadow-xl transition-all duration-500 overflow-hidden card-lift"
             >
-              {/* Hover gradient overlay */}
-              <div className={`absolute inset-0 bg-gradient-to-br ${feat.color} opacity-0 group-hover:opacity-100 transition-opacity duration-500`} />
-
               <div className="relative z-10">
-                <div className={`w-14 h-14 rounded-2xl bg-gradient-to-br ${feat.color} flex items-center justify-center mb-5`}>
+                <div className={`w-14 h-14 rounded-2xl ${feat.color} flex items-center justify-center mb-5`}>
                   <feat.icon className={`w-6 h-6 ${feat.iconColor}`} />
                 </div>
                 <h3 className="text-xl font-bold text-gray-900 mb-2">{feat.title}</h3>

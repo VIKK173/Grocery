@@ -81,12 +81,12 @@ export default function AuthModal() {
           </button>
 
           {/* Header */}
-          <div className="bg-gradient-to-br from-rivora-dark to-emerald-900 p-8 text-center">
+          <div className="bg-gradient-to-br from-grocery-dark to-grocery-darker p-8 text-center">
             <motion.div
               initial={{ scale: 0 }}
               animate={{ scale: 1 }}
               transition={{ type: 'spring', delay: 0.1 }}
-              className="w-16 h-16 rounded-2xl bg-rivora-green mx-auto mb-4 flex items-center justify-center shadow-lg shadow-rivora-green/30"
+              className="w-16 h-16 rounded-2xl bg-grocery-green mx-auto mb-4 flex items-center justify-center shadow-lg shadow-grocery-green/30"
             >
               <Leaf className="w-8 h-8 text-white" />
             </motion.div>
@@ -95,7 +95,7 @@ export default function AuthModal() {
             </h2>
             <p className="text-white/60 mt-1 text-sm">
               {authMode === 'login'
-                ? 'Sign in to your Rivora Fresh account'
+                ? 'Sign in to your Grocery account'
                 : 'Join us for fresh organic goodness'}
             </p>
           </div>
@@ -115,7 +115,7 @@ export default function AuthModal() {
                     value={name}
                     onChange={(e) => setName(e.target.value)}
                     placeholder="Enter your name"
-                    className="w-full pl-11 pr-4 py-3 bg-gray-50 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-rivora-green/50 focus:border-rivora-green transition-all"
+                    className="w-full pl-11 pr-4 py-3 bg-gray-50 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-grocery-green/50 focus:border-grocery-green transition-all"
                     required
                   />
                 </div>
@@ -131,7 +131,7 @@ export default function AuthModal() {
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   placeholder="Enter your email"
-                  className="w-full pl-11 pr-4 py-3 bg-gray-50 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-rivora-green/50 focus:border-rivora-green transition-all"
+                  className="w-full pl-11 pr-4 py-3 bg-gray-50 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-grocery-green/50 focus:border-grocery-green transition-all"
                   required
                 />
               </div>
@@ -146,7 +146,7 @@ export default function AuthModal() {
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   placeholder="Enter your password"
-                  className="w-full pl-11 pr-11 py-3 bg-gray-50 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-rivora-green/50 focus:border-rivora-green transition-all"
+                  className="w-full pl-11 pr-11 py-3 bg-gray-50 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-grocery-green/50 focus:border-grocery-green transition-all"
                   required
                   minLength={6}
                 />
@@ -165,7 +165,7 @@ export default function AuthModal() {
               whileTap={{ scale: 0.98 }}
               type="submit"
               disabled={loading}
-              className="w-full py-3.5 bg-rivora-green text-white font-semibold rounded-xl shadow-lg shadow-rivora-green/20 hover:bg-rivora-green-dark transition-colors disabled:opacity-60 disabled:cursor-not-allowed"
+              className="w-full py-3.5 bg-grocery-green text-white font-semibold rounded-xl shadow-lg shadow-grocery-green/20 hover:bg-grocery-green-light transition-colors disabled:opacity-60 disabled:cursor-not-allowed"
             >
               {loading ? (
                 <span className="flex items-center justify-center gap-2">
@@ -185,7 +185,7 @@ export default function AuthModal() {
               <button
                 type="button"
                 onClick={() => setAuthMode(authMode === 'login' ? 'signup' : 'login')}
-                className="text-rivora-green-dark font-semibold hover:text-rivora-green transition-colors"
+                className="text-grocery-dark font-semibold hover:text-grocery-green transition-colors"
               >
                 {authMode === 'login' ? 'Sign Up' : 'Sign In'}
               </button>
