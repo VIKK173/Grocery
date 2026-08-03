@@ -1,17 +1,16 @@
 'use client';
 
-import { useRef } from 'react';
+import { useRef, useState } from 'react';
 import { motion, useInView } from 'framer-motion';
 import { ArrowRight, ShoppingBag, Heart, Eye } from 'lucide-react';
-import { useState } from 'react';
 import { useStore } from '@/lib/store';
-import { featuredProducts } from '@/lib/data';
+import { products, categories } from '@/lib/data';
 
 const containerVariants = {
   hidden: { opacity: 0 },
   visible: {
     opacity: 1,
-    transition: { staggerChildren: 0.08, delayChildren: 0.2 },
+    transition: { staggerChildren: 0.06, delayChildren: 0.2 },
   },
 };
 
@@ -25,7 +24,7 @@ const cardVariants = {
   },
 };
 
-function ProductCard({ product }: { product: typeof featuredProducts[0] }) {
+function ProductCard({ product, onProductClick }: { product: typeof products[0]; onProductClick: (p: typeof products[0]) => void }) {
   const { addToCart, wishlist, toggleWishlist } = useStore();
   const [isHovered, setIsHovered] = useState(false);
   const isLiked = wishlist.includes(product._id);
@@ -36,6 +35,7 @@ function ProductCard({ product }: { product: typeof featuredProducts[0] }) {
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
       whileHover={{ y: -8 }}
+      onClick={() => onProductClick(product)}
       className="group relative bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-shadow duration-500 cursor-pointer"
     >
       {/* Badge */}
@@ -74,6 +74,13 @@ function ProductCard({ product }: { product: typeof featuredProducts[0] }) {
           transition={{ duration: 0.5 }}
         />
 
+        {/* Quick Info Overlay */}
+        {isHovered && product.origin && (
+          <div className="absolute top-2 left-2 bg-white/90 backdrop-blur-sm rounded-full px-2 py-0.5 text-[10px] font-medium text-gray-500">
+            📍 {product.origin}
+          </div>
+        )}
+
         {/* Overlay Actions */}
         <motion.div
           className="absolute inset-x-0 bottom-0 flex items-center justify-center gap-2 pb-3"
@@ -103,13 +110,18 @@ function ProductCard({ product }: { product: typeof featuredProducts[0] }) {
       </div>
 
       {/* Content */}
-      <div className="p-5">
+      <div className="p-4">
+        {/* Category tag */}
+        <span className="text-[10px] font-medium text-grocery-green bg-green-50 px-2 py-0.5 rounded-full">
+          {product.category}
+        </span>
+
         {/* Rating */}
-        <div className="flex items-center gap-1 mb-2">
+        <div className="flex items-center gap-1 mt-2">
           {[...Array(5)].map((_, i) => (
             <svg
               key={i}
-              className={`w-3.5 h-3.5 ${
+              className={`w-3 h-3 ${
                 i < Math.floor(product.rating)
                   ? 'text-amber-400 fill-amber-400'
                   : 'text-gray-200 fill-gray-200'
@@ -122,19 +134,25 @@ function ProductCard({ product }: { product: typeof featuredProducts[0] }) {
           <span className="text-xs text-gray-400 ml-1">({product.reviews})</span>
         </div>
 
-        <h3 className="text-base font-semibold text-gray-800 group-hover:text-grocery-green transition-colors">
+        <h3 className="text-sm font-semibold text-gray-800 group-hover:text-grocery-green transition-colors mt-1">
           {product.name}
         </h3>
+
+        {/* Short description */}
+        <p className="text-xs text-gray-400 mt-1 line-clamp-2 leading-relaxed">
+          {product.description}
+        </p>
 
         <div className="flex items-center gap-2 mt-2">
           <span className="text-lg font-bold text-grocery-dark">
             ₹{product.price.toLocaleString('en-IN')}
           </span>
           {product.originalPrice && (
-            <span className="text-sm text-gray-400 line-through">
+            <span className="text-xs text-gray-400 line-through">
               ₹{product.originalPrice.toLocaleString('en-IN')}
             </span>
           )}
+          <span className="ml-auto text-[10px] text-gray-400">{product.unit}</span>
         </div>
       </div>
     </motion.div>
@@ -144,6 +162,20 @@ function ProductCard({ product }: { product: typeof featuredProducts[0] }) {
 export default function ProductsSection() {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: '-100px' });
+  const { setSelectedProduct, setProductDetailOpen } = useStore();
+  const [activeCategory, setActiveCategory] = useState<string>('All');
+  const [showAll, setShowAll] = useState(false);
+
+  const filteredProducts = activeCategory === 'All'
+    ? products
+    : products.filter((p) => p.category === activeCategory);
+
+  const displayProducts = showAll ? filteredProducts : filteredProducts.slice(0, 12);
+
+  const handleProductClick = (product: typeof products[0]) => {
+    setSelectedProduct(product);
+    setProductDetailOpen(true);
+  };
 
   return (
     <section id="shop" className="py-16 md:py-24 bg-white">
@@ -152,37 +184,94 @@ export default function ProductsSection() {
           initial={{ opacity: 0, y: 20 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.5 }}
-          className="flex items-end justify-between mb-10"
+          className="flex items-end justify-between mb-6"
         >
           <div>
             <h2 className="text-3xl md:text-4xl font-bold text-gray-900">
-              Best Selling{' '}
+              Our{' '}
               <span className="text-grocery-green">Products</span>
             </h2>
             <p className="mt-2 text-gray-500 text-lg">
-              Most popular items chosen by our customers
+              Fresh & organic, handpicked just for you
             </p>
           </div>
-          <motion.a
-            href="#shop"
-            whileHover={{ x: 5 }}
-            className="hidden md:flex items-center gap-1 text-grocery-green font-medium hover:text-grocery-green-light transition-colors"
-          >
-            View All Products
-            <ArrowRight className="w-4 h-4" />
-          </motion.a>
         </motion.div>
 
+        {/* Category Filters */}
+        <motion.div
+          initial={{ opacity: 0, y: 15 }}
+          animate={isInView ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 0.5, delay: 0.1 }}
+          className="flex items-center gap-2 mb-8 overflow-x-auto pb-2 scrollbar-hide"
+        >
+          <button
+            onClick={() => { setActiveCategory('All'); setShowAll(false); }}
+            className={`px-5 py-2 rounded-full text-sm font-medium whitespace-nowrap transition-all ${
+              activeCategory === 'All'
+                ? 'bg-grocery-green text-white shadow-lg shadow-grocery-green/25'
+                : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+            }`}
+          >
+            All Products ({products.length})
+          </button>
+          {categories.map((cat) => {
+            const count = products.filter((p) => p.category === cat.name).length;
+            return (
+              <button
+                key={cat.name}
+                onClick={() => { setActiveCategory(cat.name); setShowAll(false); }}
+                className={`px-5 py-2 rounded-full text-sm font-medium whitespace-nowrap transition-all ${
+                  activeCategory === cat.name
+                    ? 'bg-grocery-green text-white shadow-lg shadow-grocery-green/25'
+                    : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+                }`}
+              >
+                {cat.name} ({count})
+              </button>
+            );
+          })}
+        </motion.div>
+
+        {/* Product Grid */}
         <motion.div
           variants={containerVariants}
           initial="hidden"
           animate={isInView ? 'visible' : 'hidden'}
           className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-6"
         >
-          {featuredProducts.map((product) => (
-            <ProductCard key={product._id} product={product} />
+          {displayProducts.map((product) => (
+            <ProductCard key={product._id} product={product} onProductClick={handleProductClick} />
           ))}
         </motion.div>
+
+        {/* Show More / Show Less */}
+        {filteredProducts.length > 12 && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 0.3 }}
+            className="flex justify-center mt-10"
+          >
+            <motion.button
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              onClick={() => setShowAll(!showAll)}
+              className="flex items-center gap-2 px-8 py-3 bg-grocery-green/10 text-grocery-green font-bold rounded-xl hover:bg-grocery-green/20 transition-colors"
+            >
+              {showAll ? (
+                <>
+                  Show Less
+                  <ArrowRight className="w-4 h-4 rotate-180" />
+                </>
+              ) : (
+                <>
+                  Show All {filteredProducts.length} Products
+                  <ArrowRight className="w-4 h-4" />
+                </>
+              )}
+            </motion.button>
+          </motion.div>
+        )}
       </div>
     </section>
   );

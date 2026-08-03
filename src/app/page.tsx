@@ -14,6 +14,7 @@ import Footer from '@/components/Footer';
 import AuthModal from '@/components/AuthModal';
 import CheckoutModal from '@/components/CheckoutModal';
 import SearchModal from '@/components/SearchModal';
+import ProductDetailModal from '@/components/ProductDetailModal';
 import Toast from '@/components/Toast';
 
 export default function Home() {
@@ -37,6 +38,7 @@ export default function Home() {
       <AuthModal />
       <CheckoutModal />
       <SearchModal />
+      <ProductDetailModal />
       <Toast />
     </div>
   );
