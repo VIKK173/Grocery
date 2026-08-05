@@ -101,21 +101,31 @@ export default function Header() {
             </motion.button>
 
             {/* Sign Up Button (desktop) */}
-            <motion.button
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-              onClick={() => {
-                if (user) {
-                  setProfileOpen(true);
-                } else {
+            {user ? (
+              <motion.button
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                onClick={() => setProfileOpen(true)}
+                className="hidden md:flex items-center gap-2 px-4 py-2 bg-white text-grocery-dark font-semibold rounded-lg text-sm hover:bg-grocery-yellow transition-colors duration-300 shadow-md"
+              >
+                <div className="w-7 h-7 rounded-full bg-grocery-green text-white flex items-center justify-center text-xs font-bold">
+                  {user?.name?.charAt(0)?.toUpperCase() || 'U'}
+                </div>
+                <span className="max-w-[100px] truncate">{user?.name || 'User'}</span>
+              </motion.button>
+            ) : (
+              <motion.button
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                onClick={() => {
                   setAuthMode('signup');
                   setAuthOpen(true);
-                }
-              }}
-              className="hidden md:flex items-center px-6 py-2 border border-white/40 text-white font-medium rounded-[10px] text-[15px] hover:bg-white/10 transition-colors duration-300"
-            >
-              {user ? 'Profile' : 'Sign Up'}
-            </motion.button>
+                }}
+                className="hidden md:flex items-center px-5 py-2.5 bg-white text-grocery-dark font-semibold rounded-lg text-sm hover:bg-grocery-yellow transition-colors duration-300 shadow-md"
+              >
+                Sign Up
+              </motion.button>
+            )}
 
             {/* Mobile Menu Button */}
             <motion.button
