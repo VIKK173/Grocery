@@ -17,6 +17,12 @@ export default function AuthModal() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+
+    if (email.toLowerCase() === 'admin@grocery.com') {
+      showToast('Admins cannot log in here. Please use the Admin Portal.', 'error');
+      return;
+    }
+
     setLoading(true);
 
     try {
