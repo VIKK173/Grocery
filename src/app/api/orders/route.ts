@@ -4,7 +4,20 @@ import Order from '@/models/Order';
 
 export async function POST(req: globalThis.Request) {
   try {
-    await dbConnect();
+    const hasMongo = !!process.env.MONGODB_URI;
+    let mongoAvailable = false;
+    
+    if (hasMongo) {
+      try {
+        const conn = await dbConnect();
+        if (conn) {
+          mongoAvailable = true;
+        }
+      } catch (mongoError) {
+        console.warn('MongoDB connection failed, using in-memory fallback:', mongoError);
+        mongoAvailable = false;
+      }
+    }
 
     const body = await req.json();
     const { items, address, paymentMethod, subtotal, deliveryFee, discount, total, userId } = body;
@@ -36,26 +49,38 @@ export async function POST(req: globalThis.Request) {
       month: 'short',
     });
 
-    const order = await Order.create({
-      orderId,
-      userId: userId || 'guest',
-      items: items.map((item: Record<string, unknown>) => ({
-        productId: item._id || item.productId,
-        name: item.name,
-        image: item.image,
-        price: item.price,
-        quantity: item.quantity,
-        unit: item.unit,
-      })),
-      address,
-      paymentMethod,
-      subtotal,
-      deliveryFee,
-      discount,
-      total,
-      status: 'confirmed',
-      estimatedDelivery,
-    });
+    let order;
+    if (mongoAvailable) {
+      order = await Order.create({
+        orderId,
+        userId: userId || 'guest',
+        items: items.map((item: Record<string, unknown>) => ({
+          productId: item._id || item.productId,
+          name: item.name,
+          image: item.image,
+          price: item.price,
+          quantity: item.quantity,
+          unit: item.unit,
+        })),
+        address,
+        paymentMethod,
+        subtotal,
+        deliveryFee,
+        discount,
+        total,
+        status: 'confirmed',
+        estimatedDelivery,
+      });
+    } else {
+      order = {
+        orderId,
+        status: 'confirmed',
+        estimatedDelivery,
+        total,
+        items,
+        createdAt: new Date(),
+      };
+    }
 
     return NextResponse.json({
       success: true,
@@ -66,7 +91,7 @@ export async function POST(req: globalThis.Request) {
         estimatedDelivery: order.estimatedDelivery,
         total: order.total,
         items: order.items,
-        createdAt: order.createdAt,
+        createdAt: order.createdAt || new Date(),
       },
     });
   } catch (error: unknown) {
@@ -77,7 +102,20 @@ export async function POST(req: globalThis.Request) {
 
 export async function GET(req: globalThis.Request) {
   try {
-    await dbConnect();
+    const hasMongo = !!process.env.MONGODB_URI;
+    let mongoAvailable = false;
+    
+    if (hasMongo) {
+      try {
+        const conn = await dbConnect();
+        if (conn) {
+          mongoAvailable = true;
+        }
+      } catch (mongoError) {
+        console.warn('MongoDB connection failed, using in-memory fallback:', mongoError);
+        mongoAvailable = false;
+      }
+    }
 
     const { searchParams } = new URL(req.url);
     const userId = searchParams.get('userId') || 'guest';
@@ -86,7 +124,10 @@ export async function GET(req: globalThis.Request) {
     let query: Record<string, string> = { userId };
     if (orderId) query.orderId = orderId;
 
-    const orders = await Order.find(query).sort({ createdAt: -1 }).limit(20);
+    let orders: any[] = [];
+    if (mongoAvailable) {
+      orders = await Order.find(query).sort({ createdAt: -1 }).limit(20);
+    }
     return NextResponse.json({ success: true, orders });
   } catch (error: unknown) {
     const message = error instanceof Error ? error.message : 'Failed to fetch orders';

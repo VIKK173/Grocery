@@ -6,7 +6,7 @@ import { useStore } from '@/lib/store';
 import { useRouter } from 'next/navigation';
 
 export default function CartSidebar() {
-  const { isCartOpen, setCartOpen, cartItems, removeFromCart, updateQuantity, getCartTotal, getCartCount, setCheckoutOpen } = useStore();
+  const { isCartOpen, setCartOpen, cartItems, removeFromCart, updateQuantity, getCartTotal, getCartCount, setCheckoutOpen, user, setAuthOpen, setAuthMode, showToast } = useStore();
 
   return (
     <AnimatePresence>
@@ -159,7 +159,16 @@ export default function CartSidebar() {
                 <motion.button
                   whileHover={{ scale: 1.02 }}
                   whileTap={{ scale: 0.98 }}
-                  onClick={() => { setCartOpen(false); setTimeout(() => setCheckoutOpen(true), 300); }}
+                  onClick={() => {
+                    if (!user) {
+                      showToast('Please login or signup to place an order!', 'info');
+                      setAuthMode('login');
+                      setAuthOpen(true);
+                      return;
+                    }
+                    setCartOpen(false);
+                    setTimeout(() => setCheckoutOpen(true), 300);
+                  }}
                   className="w-full py-4 bg-grocery-yellow text-grocery-darker font-bold rounded-xl shadow-lg yellow-glow flex items-center justify-center gap-2 hover:bg-grocery-yellow-dark transition-colors"
                 >
                   Proceed to Checkout

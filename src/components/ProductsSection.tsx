@@ -25,7 +25,7 @@ const cardVariants = {
 };
 
 function ProductCard({ product, onProductClick }: { product: typeof products[0]; onProductClick: (p: typeof products[0]) => void }) {
-  const { addToCart, wishlist, toggleWishlist } = useStore();
+  const { addToCart, wishlist, toggleWishlist, user, setAuthMode, setAuthOpen, showToast } = useStore();
   const [isHovered, setIsHovered] = useState(false);
   const isLiked = wishlist.includes(product._id);
 
@@ -100,6 +100,12 @@ function ProductCard({ product, onProductClick }: { product: typeof products[0];
             whileTap={{ scale: 0.9 }}
             onClick={(e) => {
               e.stopPropagation();
+              if (!user) {
+                showToast('Please login to add products to cart', 'error');
+                setAuthMode('login');
+                setAuthOpen(true);
+                return;
+              }
               addToCart(product);
             }}
             className="w-9 h-9 rounded-full bg-grocery-green shadow-md flex items-center justify-center text-white"

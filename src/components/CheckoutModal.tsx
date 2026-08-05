@@ -18,7 +18,7 @@ const steps = [
 export default function CheckoutModal() {
   const {
     isCheckoutOpen, setCheckoutOpen, cartItems, getCartTotal, clearCart,
-    showToast, setLastOrderId, setLastOrderData, user, lastOrderId,
+    showToast, setLastOrderId, setLastOrderData, user, lastOrderId, addOrder,
   } = useStore();
 
   const [step, setStep] = useState(0);
@@ -98,6 +98,7 @@ export default function CheckoutModal() {
       if (data.success) {
         setLastOrderId(data.order.orderId);
         setLastOrderData(data.order);
+        addOrder(data.order);
         moveToConfirmation();
         setStep(2);
         clearCart();
@@ -115,8 +116,25 @@ export default function CheckoutModal() {
         hour: '2-digit', minute: '2-digit', hour12: true, day: 'numeric', month: 'short',
       });
 
+      const fallbackOrder = {
+        orderId: fallbackOrderId,
+        estimatedDelivery,
+        total: finalTotal,
+        status: 'confirmed',
+        items: cartItems.map((item) => ({
+          _id: item.product._id,
+          name: item.product.name,
+          image: item.product.image,
+          price: item.product.price,
+          quantity: item.quantity,
+          unit: item.product.unit,
+        })),
+        createdAt: new Date(),
+      };
+
       setLastOrderId(fallbackOrderId);
-      setLastOrderData({ orderId: fallbackOrderId, estimatedDelivery, total: finalTotal, status: 'confirmed' });
+      setLastOrderData(fallbackOrder);
+      addOrder(fallbackOrder);
       moveToConfirmation();
       setStep(2);
       clearCart();
@@ -149,8 +167,8 @@ export default function CheckoutModal() {
     setSavedTotal(finalTotal);
   };
 
-  if (!isCheckoutOpen || (cartItems.length === 0 && step < 2)) return null;
-  if (cartItems.length === 0 && step !== 2 && itemCount === 0) return null;
+  if (!isCheckoutOpen || !user || (cartItems.length === 0 && step < 2)) return null;
+  if ((!user || cartItems.length === 0) && step !== 2 && itemCount === 0) return null;
 
   return (
     <AnimatePresence>

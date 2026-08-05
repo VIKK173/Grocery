@@ -12,10 +12,13 @@ import CTABanner from '@/components/CTABanner';
 import NewsletterSection from '@/components/NewsletterSection';
 import Footer from '@/components/Footer';
 import AuthModal from '@/components/AuthModal';
+import ProfileModal from '@/components/ProfileModal';
+import CartSidebar from '@/components/CartSidebar';
 import CheckoutModal from '@/components/CheckoutModal';
 import SearchModal from '@/components/SearchModal';
 import ProductDetailModal from '@/components/ProductDetailModal';
 import Toast from '@/components/Toast';
+import HelpCenterModal from '@/components/HelpCenterModal';
 
 export default function Home() {
   return (
@@ -36,9 +39,12 @@ export default function Home() {
 
       {/* Overlays */}
       <AuthModal />
+      <ProfileModal />
+      <CartSidebar />
       <CheckoutModal />
       <SearchModal />
       <ProductDetailModal />
+      <HelpCenterModal />
       <Toast />
     </div>
   );

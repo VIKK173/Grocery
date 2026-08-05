@@ -7,7 +7,7 @@ import { products } from '@/lib/data';
 import { useState } from 'react';
 
 export default function ProductDetailModal() {
-  const { selectedProduct, setSelectedProduct, isProductDetailOpen, setProductDetailOpen, addToCart, wishlist, toggleWishlist, showToast } = useStore();
+  const { selectedProduct, setSelectedProduct, isProductDetailOpen, setProductDetailOpen, addToCart, wishlist, toggleWishlist, showToast, user, setAuthMode, setAuthOpen } = useStore();
   const [quantity, setQuantity] = useState(1);
   const [activeTab, setActiveTab] = useState<'description' | 'nutrition' | 'reviews'>('description');
 
@@ -23,6 +23,12 @@ export default function ProductDetailModal() {
     .slice(0, 4);
 
   const handleAddToCart = () => {
+    if (!user) {
+      showToast('Please login to add products to cart', 'error');
+      setAuthMode('login');
+      setAuthOpen(true);
+      return;
+    }
     for (let i = 0; i < quantity; i++) {
       addToCart(selectedProduct);
     }

@@ -12,6 +12,7 @@ import {
   Phone,
   Mail,
 } from 'lucide-react';
+import { useStore } from '@/lib/store';
 
 const footerLinks = {
   'Customer Service': [
@@ -107,12 +108,17 @@ export default function Footer() {
                 <ul className="space-y-2.5">
                   {links.map((link) => (
                     <li key={link}>
-                      <a
-                        href="#"
-                        className="text-sm text-white/50 hover:text-grocery-yellow transition-colors duration-300"
+                      <button
+                        onClick={(e) => {
+                          e.preventDefault();
+                          if (link === 'Help Center') {
+                            useStore.getState().setHelpCenterOpen(true);
+                          }
+                        }}
+                        className="text-sm text-white/50 hover:text-grocery-yellow transition-colors duration-300 text-left"
                       >
                         {link}
-                      </a>
+                      </button>
                     </li>
                   ))}
                 </ul>

@@ -35,6 +35,15 @@ export interface User {
   token?: string;
 }
 
+export interface Order {
+  orderId: string;
+  status: string;
+  estimatedDelivery: string;
+  total: number;
+  items: any[];
+  createdAt: Date | string;
+}
+
 interface StoreState {
   // Auth
   user: User | null;
@@ -43,6 +52,8 @@ interface StoreState {
   setAuthOpen: (open: boolean) => void;
   authMode: 'login' | 'signup';
   setAuthMode: (mode: 'login' | 'signup') => void;
+  isProfileOpen: boolean;
+  setProfileOpen: (open: boolean) => void;
 
   // Cart
   cartItems: CartItem[];
@@ -72,6 +83,8 @@ interface StoreState {
   setLastOrderId: (id: string | null) => void;
   lastOrderData: Record<string, unknown> | null;
   setLastOrderData: (data: Record<string, unknown> | null) => void;
+  orders: Order[];
+  addOrder: (order: Order) => void;
 
   // Product Detail
   selectedProduct: Product | null;
@@ -82,6 +95,9 @@ interface StoreState {
   // Toast
   toast: { message: string; type: 'success' | 'error' | 'info' } | null;
   showToast: (message: string, type?: 'success' | 'error' | 'info') => void;
+  // Help Center
+  isHelpCenterOpen: boolean;
+  setHelpCenterOpen: (open: boolean) => void;
 }
 
 export const useStore = create<StoreState>()(
@@ -94,6 +110,8 @@ export const useStore = create<StoreState>()(
       setAuthOpen: (open) => set({ isAuthOpen: open }),
       authMode: 'login',
       setAuthMode: (mode) => set({ authMode: mode }),
+      isProfileOpen: false,
+      setProfileOpen: (open) => set({ isProfileOpen: open }),
 
       // Cart
       cartItems: [],
@@ -153,6 +171,8 @@ export const useStore = create<StoreState>()(
       setLastOrderId: (id) => set({ lastOrderId: id }),
       lastOrderData: null,
       setLastOrderData: (data) => set({ lastOrderData: data }),
+      orders: [],
+      addOrder: (order) => set((state) => ({ orders: [order, ...state.orders] })),
 
       // Product Detail
       selectedProduct: null,
@@ -177,6 +197,10 @@ export const useStore = create<StoreState>()(
         set({ toast: { message, type } });
         setTimeout(() => set({ toast: null }), 3000);
       },
+
+      // Help Center
+      isHelpCenterOpen: false,
+      setHelpCenterOpen: (open) => set({ isHelpCenterOpen: open }),
     }),
     {
       name: 'rivora-store',
@@ -184,6 +208,7 @@ export const useStore = create<StoreState>()(
         cartItems: state.cartItems,
         user: state.user,
         wishlist: state.wishlist,
+        orders: state.orders,
       }),
     }
   )

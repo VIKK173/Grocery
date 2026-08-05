@@ -3,14 +3,10 @@
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
-  Search,
-  User,
-  ShoppingBag,
+  ShoppingCart,
   Menu,
   X,
-  Leaf,
   ChevronRight,
-  LogOut,
 } from 'lucide-react';
 import { useStore } from '@/lib/store';
 
@@ -18,12 +14,12 @@ const navLinks = [
   { label: 'Home', href: '#home' },
   { label: 'Services', href: '#services' },
   { label: 'About Us', href: '#about' },
-  { label: 'Categories', href: '#categories' },
+  { label: 'Catagories', href: '#categories' },
   { label: 'Contact', href: '#contact' },
 ];
 
 export default function Header() {
-  const { setSearchOpen, setCartOpen, setAuthOpen, setAuthMode, user, setUser } = useStore();
+  const { setCartOpen, setAuthOpen, setAuthMode, user, setProfileOpen } = useStore();
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
   const cartCount = useStore((s) => s.cartItems.reduce((c, i) => c + i.quantity, 0));
@@ -33,16 +29,6 @@ export default function Header() {
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
-
-  const handleUserClick = () => {
-    if (user) {
-      setUser(null);
-      useStore.setState({ cartItems: [] });
-    } else {
-      setAuthMode('login');
-      setAuthOpen(true);
-    }
-  };
 
   return (
     <motion.header
@@ -56,28 +42,26 @@ export default function Header() {
       }`}
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between h-16 md:h-20">
-          {/* Logo - Matches screenshot */}
+        <div className="flex items-center justify-between h-20 md:h-24">
+          {/* Logo */}
           <motion.a
             href="#home"
             className="flex items-center gap-2.5 group"
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
           >
-            <div className="w-10 h-10 rounded-xl bg-grocery-yellow flex items-center justify-center shadow-lg shadow-grocery-yellow/30">
-              <svg className="w-5 h-5 text-grocery-darker" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                <path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z" />
-                <line x1="3" y1="6" x2="21" y2="6" />
-                <path d="M16 10a4 4 0 01-8 0" />
+            <div className="w-10 h-10 flex items-center justify-center">
+              <svg className="w-8 h-8 text-grocery-yellow" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M7 18c-1.1 0-1.99.9-1.99 2S5.9 22 7 22s2-.9 2-2-.9-2-2-2zM1 2v2h2l3.6 7.59-1.35 2.45c-.16.28-.25.61-.25.96 0 1.1.9 2 2 2h12v-2H7.42c-.14 0-.25-.11-.25-.25l.03-.12.9-1.63h7.45c.75 0 1.41-.41 1.75-1.03l3.58-6.49c.08-.14.12-.31.12-.48 0-.55-.45-1-1-1H5.21l-.94-2H1zm16 16c-1.1 0-1.99.9-1.99 2s.89 2 1.99 2 2-.9 2-2-.9-2-2-2z"/>
               </svg>
             </div>
-            <span className="text-xl font-bold text-white tracking-tight">
+            <span className="text-2xl font-bold text-white tracking-tight">
               Grocery
             </span>
           </motion.a>
 
           {/* Desktop Nav */}
-          <nav className="hidden lg:flex items-center gap-8">
+          <nav className="hidden lg:flex items-center gap-10">
             {navLinks.map((link, i) => (
               <motion.a
                 key={link.label}
@@ -85,47 +69,25 @@ export default function Header() {
                 initial={{ opacity: 0, y: -20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.1 * i, duration: 0.4 }}
-                className="relative text-sm font-medium text-white/90 hover:text-grocery-yellow transition-colors duration-300 group"
+                className={`relative text-[15px] transition-colors duration-300 group ${link.label === 'Home' ? 'font-semibold text-white' : 'font-medium text-white/70 hover:text-white'}`}
               >
                 {link.label}
-                <span className="absolute bottom-0 left-1/2 -translate-x-1/2 w-0 h-0.5 bg-grocery-yellow rounded-full transition-all duration-300 group-hover:w-3/4" />
+                {link.label === 'Home' && <span className="absolute -bottom-1.5 left-0 w-full h-[2px] bg-white rounded-full" />}
               </motion.a>
             ))}
           </nav>
 
           {/* Right Actions */}
-          <div className="flex items-center gap-3">
-            {/* Search Icon - CLICKABLE */}
-            <motion.button
-              whileHover={{ scale: 1.1 }}
-              whileTap={{ scale: 0.9 }}
-              onClick={() => setSearchOpen(true)}
-              className="p-2.5 rounded-full text-white/80 hover:text-grocery-yellow hover:bg-white/10 transition-all duration-300"
-              title="Search products"
-            >
-              <Search className="w-5 h-5" />
-            </motion.button>
-
-            {/* User Icon - CLICKABLE */}
-            <motion.button
-              whileHover={{ scale: 1.1 }}
-              whileTap={{ scale: 0.9 }}
-              onClick={handleUserClick}
-              className="p-2.5 rounded-full text-white/80 hover:text-grocery-yellow hover:bg-white/10 transition-all duration-300"
-              title={user ? 'Sign Out' : 'Sign In'}
-            >
-              {user ? <LogOut className="w-5 h-5" /> : <User className="w-5 h-5" />}
-            </motion.button>
-
-            {/* Cart Icon - CLICKABLE */}
+          <div className="flex items-center gap-4">
+            {/* Cart Icon */}
             <motion.button
               whileHover={{ scale: 1.1 }}
               whileTap={{ scale: 0.9 }}
               onClick={() => setCartOpen(true)}
-              className="relative p-2.5 rounded-full bg-white/10 text-white/90 hover:bg-white/15 transition-all duration-300"
+              className="relative p-2.5 rounded-full bg-white/20 text-white hover:bg-white/30 transition-all duration-300 backdrop-blur-sm"
               title="Shopping Cart"
             >
-              <ShoppingBag className="w-5 h-5" />
+              <ShoppingCart className="w-5 h-5" fill="currentColor" />
               {cartCount > 0 && (
                 <motion.span
                   key={cartCount}
@@ -144,15 +106,15 @@ export default function Header() {
               whileTap={{ scale: 0.95 }}
               onClick={() => {
                 if (user) {
-                  handleUserClick();
+                  setProfileOpen(true);
                 } else {
                   setAuthMode('signup');
                   setAuthOpen(true);
                 }
               }}
-              className="hidden md:flex items-center px-5 py-2.5 bg-white text-grocery-dark font-semibold rounded-lg text-sm hover:bg-grocery-yellow transition-colors duration-300 shadow-md"
+              className="hidden md:flex items-center px-6 py-2 border border-white/40 text-white font-medium rounded-[10px] text-[15px] hover:bg-white/10 transition-colors duration-300"
             >
-              {user ? 'Sign Out' : 'Sign Up'}
+              {user ? 'Profile' : 'Sign Up'}
             </motion.button>
 
             {/* Mobile Menu Button */}
@@ -168,18 +130,6 @@ export default function Header() {
         </div>
       </div>
 
-      {/* User greeting when logged in */}
-      {user && scrolled && (
-        <motion.div
-          initial={{ opacity: 0, height: 0 }}
-          animate={{ opacity: 1, height: 'auto' }}
-          className="hidden lg:flex items-center justify-center gap-2 pb-2 text-xs text-white/40"
-        >
-          <Leaf className="w-3 h-3 text-grocery-lime" />
-          Welcome, {user.name}!
-        </motion.div>
-      )}
-
       {/* Mobile Menu */}
       <AnimatePresence>
         {mobileOpen && (
@@ -191,14 +141,6 @@ export default function Header() {
             className="lg:hidden bg-grocery-dark/98 backdrop-blur-md border-t border-white/10 overflow-hidden"
           >
             <nav className="px-4 py-4 space-y-1">
-              {user && (
-                <div className="flex items-center gap-2 px-4 py-3 mb-2 rounded-xl bg-grocery-green/10 border border-grocery-green/20">
-                  <div className="w-8 h-8 rounded-full bg-grocery-yellow text-grocery-darker flex items-center justify-center text-sm font-bold">
-                    {user.name[0].toUpperCase()}
-                  </div>
-                  <span className="text-sm font-medium text-white">{user.name}</span>
-                </div>
-              )}
               {navLinks.map((link, i) => (
                 <motion.a
                   key={link.label}
@@ -213,19 +155,6 @@ export default function Header() {
                   <ChevronRight className="w-4 h-4 opacity-50" />
                 </motion.a>
               ))}
-              <motion.button
-                initial={{ opacity: 0, x: -20 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ delay: 0.35 }}
-                onClick={() => {
-                  handleUserClick();
-                  setMobileOpen(false);
-                }}
-                className="w-full flex items-center justify-between px-4 py-3 rounded-xl text-white/80 hover:text-grocery-yellow hover:bg-white/5 transition-all duration-300"
-              >
-                {user ? 'Sign Out' : 'Sign In'}
-                {user ? <LogOut className="w-4 h-4 opacity-50" /> : <ChevronRight className="w-4 h-4 opacity-50" />}
-              </motion.button>
             </nav>
           </motion.div>
         )}

@@ -2,11 +2,9 @@
 
 import { motion } from 'framer-motion';
 import {
-  ArrowRight,
   Star,
   MapPin,
-  Clock,
-  Leaf,
+  Truck,
   ChevronDown,
   Maximize2,
   RefreshCw,
@@ -77,10 +75,10 @@ export default function HeroSection() {
           <motion.div variants={containerVariants} initial="hidden" animate="visible">
             {/* Trust Badge */}
             <motion.div variants={itemVariants}>
-              <div className="inline-flex items-center gap-2.5 px-5 py-2.5 rounded-full glass-card mb-8">
-                <Leaf className="w-4 h-4 text-grocery-lime" />
-                <span className="text-sm font-medium text-white/70">
-                  Food Delivery Service &amp; Restaurant
+              <div className="inline-flex items-center gap-2.5 px-4 py-2 rounded-full border border-white/20 bg-white/5 backdrop-blur-sm mb-6">
+                <Truck className="w-4 h-4 text-white/80" />
+                <span className="text-sm text-white/80">
+                  Food Deliver Service &amp; Restaurant
                 </span>
               </div>
             </motion.div>
@@ -88,23 +86,21 @@ export default function HeroSection() {
             {/* Main Headline */}
             <motion.h1
               variants={itemVariants}
-              className="text-5xl sm:text-6xl lg:text-7xl font-extrabold leading-[0.95] tracking-tight"
+              className="text-5xl sm:text-6xl lg:text-[76px] font-bold leading-[1.1] tracking-tight"
             >
-              <span className="text-white">Get Fresh</span>
+              <span className="text-white">Get Fresh Grocery</span>
               <br />
-              <span className="text-white">Grocery</span>
-              <br />
-              <span className="text-white/70">Enjoy healthy life.</span>
+              <span className="text-white/80 font-normal">Enjoy healthy life.</span>
             </motion.h1>
 
             {/* CTA Buttons */}
             <motion.div variants={itemVariants} className="mt-10">
-              <div className="flex flex-col sm:flex-row gap-4">
-                <div className="relative flex-1">
+              <div className="flex flex-col sm:flex-row items-center w-full max-w-[420px] bg-white/10 backdrop-blur-md rounded-full overflow-hidden">
+                <div className="relative flex-1 w-full h-14">
                   <select
                     value={selectedCategory}
                     onChange={(e) => setSelectedCategory(e.target.value)}
-                    className="w-full appearance-none bg-white/10 backdrop-blur-md border border-white/10 text-white rounded-xl px-5 py-4 pr-12 text-sm font-medium outline-none focus:border-grocery-yellow/50 transition-all cursor-pointer"
+                    className="w-full h-full appearance-none bg-transparent text-white/70 px-6 pr-12 text-[15px] outline-none cursor-pointer"
                   >
                     <option value="" className="bg-grocery-darker text-white">Select Category</option>
                     {categories.map((cat) => (
@@ -113,27 +109,25 @@ export default function HeroSection() {
                       </option>
                     ))}
                   </select>
-                  <ChevronDown className="absolute right-4 top-1/2 -translate-y-1/2 w-5 h-5 text-white/50 pointer-events-none" />
                 </div>
                 <motion.button
-                  whileHover={{ scale: 1.03 }}
-                  whileTap={{ scale: 0.97 }}
+                  whileHover={{ scale: 1.02 }}
+                  whileTap={{ scale: 0.98 }}
                   onClick={handleShopNow}
-                  className="px-8 py-4 bg-grocery-yellow text-grocery-darker font-bold rounded-xl shadow-xl text-sm tracking-wide yellow-glow transition-all"
+                  className="w-full sm:w-auto px-10 h-14 bg-grocery-yellow text-grocery-darker font-bold text-[15px]"
                 >
                   Shop Now
-                  <ArrowRight className="inline w-4 h-4 ml-2" />
                 </motion.button>
               </div>
 
               {/* Not yet member */}
-              <p className="mt-4 text-sm text-white/40">
+              <p className="mt-6 text-[15px] text-white/80">
                 Not yet Member?{' '}
                 <button
                   onClick={() => { setAuthMode('signup'); setAuthOpen(true); }}
-                  className="text-grocery-yellow font-semibold hover:text-white transition-colors underline underline-offset-2"
+                  className="text-grocery-lime font-medium hover:text-white transition-colors"
                 >
-                  Sign Up Now.
+                  Sign Up Now
                 </button>
               </p>
             </motion.div>
@@ -141,41 +135,40 @@ export default function HeroSection() {
             {/* Social Proof Card */}
             <motion.div
               variants={itemVariants}
-              className="mt-12"
+              className="mt-10 relative"
             >
               <motion.div
-                initial={{ rotate: -2 }}
+                initial={{ rotate: -1 }}
                 whileHover={{ rotate: 0 }}
-                className="inline-flex items-center gap-4 px-6 py-4 rounded-2xl glass-card"
+                className="inline-flex items-center gap-4 px-6 py-4 rounded-xl bg-white/10 backdrop-blur-md max-w-sm"
               >
-                <div className="flex -space-x-3">
+                <div className="flex -space-x-2">
                   {['photo-1494790108377-be9c29b29330', 'photo-1507003211169-0a1dd7228f2d', 'photo-1438761681033-6461ffad8d80'].map((id, i) => (
                     <img
                       key={i}
                       src={`https://images.unsplash.com/${id}?w=40&h=40&fit=crop&crop=face`}
                       alt={`Customer ${i + 1}`}
-                      className="w-10 h-10 rounded-full border-2 border-grocery-dark object-cover"
+                      className="w-9 h-9 rounded-full border border-white/20 object-cover"
                     />
                   ))}
                 </div>
                 <div>
-                  <p className="text-sm font-bold text-white">Our Happy Customer</p>
+                  <p className="text-[15px] font-medium text-white/90">Our Happy Customer</p>
                   <div className="flex items-center gap-1 mt-0.5">
-                    {[...Array(5)].map((_, i) => (
-                      <Star key={i} className="w-3.5 h-3.5 text-grocery-yellow fill-grocery-yellow" />
-                    ))}
-                    <span className="text-xs text-white/50 ml-1">4.8</span>
+                    <Star className="w-3.5 h-3.5 text-grocery-yellow fill-grocery-yellow" />
+                    <span className="text-[13px] text-white/90 font-medium ml-1">4.5</span>
+                    <span className="text-[13px] text-white/50 ml-1">(1.8k Reviews)</span>
                   </div>
                 </div>
               </motion.div>
             </motion.div>
 
             {/* App Download */}
-            <motion.div variants={itemVariants} className="mt-8">
-              <p className="text-xs text-white/30 uppercase tracking-widest mb-3">Download App</p>
-              <div className="flex gap-3">
+            <motion.div variants={itemVariants} className="mt-8 relative">
+              <p className="text-[13px] text-white/90 font-medium mb-3">Download App</p>
+              <div className="flex gap-4">
                 <motion.button whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}
-                  className="flex items-center gap-2.5 px-5 py-3 rounded-xl bg-white/10 border border-white/10 hover:bg-white/15 transition-colors">
+                  className="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-black border border-white/10 hover:bg-black/80 transition-colors">
                   <svg className="w-5 h-5 text-white" viewBox="0 0 24 24" fill="currentColor"><path d="M3.609 1.814L13.792 12 3.61 22.186a.996.996 0 01-.61-.92V2.734a1 1 0 01.609-.92zm10.89 10.893l2.302 2.302-10.937 6.333 8.635-8.635zm3.199-3.199l2.302 2.302a1 1 0 010 1.38l-2.302 2.302L15.396 13l2.302-2.492zM5.864 2.658L16.8 8.99l-2.302 2.302-8.635-8.635z"/></svg>
                   <div className="text-left">
                     <p className="text-[10px] text-white/50">GET IT ON</p>
@@ -183,7 +176,7 @@ export default function HeroSection() {
                   </div>
                 </motion.button>
                 <motion.button whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}
-                  className="flex items-center gap-2.5 px-5 py-3 rounded-xl bg-white/10 border border-white/10 hover:bg-white/15 transition-colors">
+                  className="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-black border border-white/10 hover:bg-black/80 transition-colors">
                   <svg className="w-5 h-5 text-white" viewBox="0 0 24 24" fill="currentColor"><path d="M18.71 19.5C17.88 20.74 17 21.95 15.66 21.97C14.32 22 13.98 21.18 12.5 21.18C11.03 21.18 10.65 21.95 9.38 22C8.06 22.05 6.97 20.68 6.13 19.47C4.3 16.56 2.93 11.3 4.7 7.72C5.57 5.94 7.36 4.86 9.28 4.84C10.56 4.81 11.78 5.72 12.57 5.72C13.36 5.72 14.85 4.62 16.4 4.8C17.06 4.83 18.89 5.08 20.07 6.79C19.96 6.86 17.62 8.24 17.65 11.04C17.69 14.4 20.63 15.52 20.66 15.53C20.64 15.63 20.17 17.26 18.71 19.5ZM13 3.5C13.73 2.67 14.94 2.04 15.94 2C16.07 3.17 15.6 4.35 14.9 5.19C14.21 6.04 13.07 6.7 11.95 6.61C11.8 5.46 12.36 4.26 13 3.5Z"/></svg>
                   <div className="text-left">
                     <p className="text-[10px] text-white/50">Download on the</p>
@@ -210,81 +203,39 @@ export default function HeroSection() {
             <motion.div
               animate={{ y: [0, -10, 0] }}
               transition={{ duration: 5, repeat: Infinity, ease: 'easeInOut' }}
-              className="relative z-10"
+              className="relative z-10 flex justify-center"
             >
               <img
                 src="https://images.unsplash.com/photo-1526367790999-0150786686a2?w=600&h=700&fit=crop&crop=person"
                 alt="Delivery person with fresh groceries"
-                className="w-full h-[520px] object-cover object-top rounded-[2rem] shadow-2xl"
-                style={{ filter: 'contrast(1.05) brightness(1.05)' }}
+                className="w-full max-w-[500px] object-cover object-top"
+                style={{ filter: 'drop-shadow(0 20px 30px rgba(0,0,0,0.3))' }}
               />
             </motion.div>
 
             {/* Floating Card: 100% Fresh (top-right) */}
             <motion.div
-              className="absolute -top-4 -right-4 z-20"
-              animate={{ y: [0, -8, 0], rotate: [0, 2, 0] }}
+              className="absolute top-1/4 right-0 z-20"
+              animate={{ y: [0, -8, 0] }}
               transition={{ duration: 4, repeat: Infinity, ease: 'easeInOut' }}
             >
-              <div className="px-4 py-3 rounded-2xl glass-card shadow-xl">
-                <div className="flex items-center gap-2.5">
-                  <div className="w-10 h-10 rounded-xl bg-grocery-green/30 flex items-center justify-center">
-                    <Leaf className="w-5 h-5 text-grocery-lime" />
-                  </div>
-                  <div>
-                    <p className="text-sm font-bold text-white">100% Fresh</p>
-                    <p className="text-[11px] text-white/50">Organic Certified</p>
-                  </div>
+              <div className="px-4 py-4 rounded-[20px] bg-white/10 backdrop-blur-md border border-white/10 shadow-xl flex flex-col items-center justify-center min-w-[110px]">
+                <div className="w-12 h-12 rounded-full bg-white/10 flex items-center justify-center mb-2">
+                  <span className="text-xl">🥗</span>
                 </div>
+                <p className="text-[12px] font-bold text-white text-center leading-tight">100% Fresh</p>
+                <p className="text-[10px] text-white/70 text-center leading-tight">Quality maintain</p>
               </div>
             </motion.div>
 
             {/* Floating Card: Location Pin (top-left) */}
             <motion.div
-              className="absolute top-16 -left-8 z-20"
-              animate={{ y: [0, -10, 0], x: [0, 5, 0] }}
+              className="absolute top-24 left-10 z-20"
+              animate={{ y: [0, -10, 0] }}
               transition={{ duration: 5, repeat: Infinity, ease: 'easeInOut', delay: 0.5 }}
             >
-              <div className="w-12 h-12 rounded-full bg-grocery-red shadow-xl flex items-center justify-center">
-                <MapPin className="w-5 h-5 text-white" />
-              </div>
-            </motion.div>
-
-            {/* Floating Card: Live Tracking (left) */}
-            <motion.div
-              className="absolute top-1/3 -left-10 z-20"
-              animate={{ y: [0, -12, 0] }}
-              transition={{ duration: 4.5, repeat: Infinity, ease: 'easeInOut', delay: 0.3 }}
-            >
-              <div className="px-4 py-3 rounded-2xl glass-card shadow-xl">
-                <div className="flex items-center gap-2.5">
-                  <div className="w-10 h-10 rounded-xl bg-blue-500/20 flex items-center justify-center">
-                    <MapPin className="w-5 h-5 text-blue-400" />
-                  </div>
-                  <div>
-                    <p className="text-sm font-bold text-white">Live Tracking</p>
-                    <p className="text-[11px] text-white/50">Real-time updates</p>
-                  </div>
-                </div>
-              </div>
-            </motion.div>
-
-            {/* Floating Card: 30 Min Fast Delivery (bottom-left) */}
-            <motion.div
-              className="absolute bottom-24 -left-6 z-20"
-              animate={{ y: [0, -8, 0], rotate: [0, -2, 0] }}
-              transition={{ duration: 3.5, repeat: Infinity, ease: 'easeInOut', delay: 1 }}
-            >
-              <div className="px-4 py-3 rounded-2xl glass-card shadow-xl">
-                <div className="flex items-center gap-2.5">
-                  <div className="w-10 h-10 rounded-xl bg-grocery-yellow/20 flex items-center justify-center">
-                    <Clock className="w-5 h-5 text-grocery-yellow" />
-                  </div>
-                  <div>
-                    <p className="text-sm font-bold text-white">30 Min</p>
-                    <p className="text-[11px] text-white/50">Fast Delivery</p>
-                  </div>
-                </div>
+              <div className="w-16 h-16 rounded-full bg-white/10 backdrop-blur-md shadow-xl flex items-center justify-center">
+                <MapPin className="w-8 h-8 text-grocery-red fill-grocery-red" />
               </div>
             </motion.div>
 
