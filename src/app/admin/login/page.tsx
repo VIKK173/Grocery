@@ -18,7 +18,7 @@ export default function AdminLogin() {
     setError('');
 
     // Simple admin check - in production, use proper auth
-    if (email === 'admin@grocery.com' && password === 'admin123') {
+    if (email === 'vs500509@gmail.com' && password === 'Sharma@123') {
       localStorage.setItem('adminAuth', 'true');
       router.push('/admin/dashboard');
     } else {
@@ -72,7 +72,7 @@ export default function AdminLogin() {
                   type="email"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  placeholder="admin@grocery.com"
+                  placeholder="vs500509@gmail.com"
                   className="w-full pl-11 pr-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-grocery-green/50 focus:border-grocery-green transition-all"
                   required
                 />
@@ -114,8 +114,8 @@ export default function AdminLogin() {
 
           <div className="mt-6 p-4 bg-gray-50 rounded-xl">
             <p className="text-xs text-gray-500 text-center">
-              Demo credentials:<br />
-              <span className="font-mono">admin@grocery.com</span> / <span className="font-mono">admin123</span>
+              Admin credentials:<br />
+              <span className="font-mono">vs500509@gmail.com</span> / <span className="font-mono">Sharma@123</span>
             </p>
           </div>
         </motion.div>
