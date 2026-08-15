@@ -8,7 +8,27 @@ const JWT_SECRET = process.env.NEXTAUTH_SECRET || 'rivora-secret-key';
 
 export async function POST(req: NextRequest) {
   try {
-    await dbConnect();
+    const hasMongo = !!process.env.MONGODB_URI;
+    let mongoAvailable = false;
+    
+    if (hasMongo) {
+      try {
+        const conn = await dbConnect();
+        if (conn) {
+          mongoAvailable = true;
+        }
+      } catch (mongoError) {
+        console.warn('MongoDB connection failed, using fallback:', mongoError);
+        mongoAvailable = false;
+      }
+    }
+
+    if (!mongoAvailable) {
+      return NextResponse.json({ 
+        success: false, 
+        error: 'Database not available. Please configure MongoDB.' 
+      }, { status: 503 });
+    }
 
     const { email, password } = await req.json();
 

@@ -8,7 +8,27 @@ const JWT_SECRET = process.env.NEXTAUTH_SECRET || 'rivora-secret-key';
 
 export async function POST(req: NextRequest) {
   try {
-    await dbConnect();
+    const hasMongo = !!process.env.MONGODB_URI;
+    let mongoAvailable = false;
+    
+    if (hasMongo) {
+      try {
+        const conn = await dbConnect();
+        if (conn) {
+          mongoAvailable = true;
+        }
+      } catch (mongoError) {
+        console.warn('MongoDB connection failed, using fallback:', mongoError);
+        mongoAvailable = false;
+      }
+    }
+
+    if (!mongoAvailable) {
+      return NextResponse.json({ 
+        success: false, 
+        error: 'Database not available. Please configure MongoDB.' 
+      }, { status: 503 });
+    }
 
     const { name, email, password, phone } = await req.json();
 
@@ -35,6 +55,7 @@ export async function POST(req: NextRequest) {
       role: 'user',
     });
 
+    // Generate token
     const token = jwt.sign(
       { userId: user._id, email: user.email, name: user.name, role: user.role },
       JWT_SECRET,
@@ -54,3 +75,4 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ success: false, error: message }, { status: 500 });
   }
 }
+

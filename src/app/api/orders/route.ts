@@ -2,6 +2,9 @@ import { NextResponse } from 'next/server';
 import dbConnect from '@/lib/mongodb';
 import Order from '@/models/Order';
 
+// In-memory storage for testing when MongoDB is not available
+let inMemoryOrders: any[] = [];
+
 export async function POST(req: globalThis.Request) {
   try {
     const hasMongo = !!process.env.MONGODB_URI;
@@ -74,12 +77,27 @@ export async function POST(req: globalThis.Request) {
     } else {
       order = {
         orderId,
+        userId: userId || 'guest',
         status: 'confirmed',
         estimatedDelivery,
         total,
-        items,
+        items: items.map((item: Record<string, unknown>) => ({
+          productId: item._id || item.productId,
+          name: item.name,
+          image: item.image,
+          price: item.price,
+          quantity: item.quantity,
+          unit: item.unit,
+        })),
+        address,
+        paymentMethod,
+        subtotal,
+        deliveryFee,
+        discount,
         createdAt: new Date(),
       };
+      // Save to in-memory storage
+      inMemoryOrders.push(order);
     }
 
     return NextResponse.json({
@@ -118,15 +136,21 @@ export async function GET(req: globalThis.Request) {
     }
 
     const { searchParams } = new URL(req.url);
-    const userId = searchParams.get('userId') || 'guest';
+    const userId = searchParams.get('userId');
     const orderId = searchParams.get('orderId');
+    const admin = searchParams.get('admin');
 
-    let query: Record<string, string> = { userId };
+    let query: Record<string, any> = {};
+    if (userId) query.userId = userId;
     if (orderId) query.orderId = orderId;
+    // If admin=true, return all orders without userId filter
 
     let orders: any[] = [];
     if (mongoAvailable) {
-      orders = await Order.find(query).sort({ createdAt: -1 }).limit(20);
+      orders = await Order.find(query).sort({ createdAt: -1 }).limit(100);
+    } else {
+      // Return in-memory orders
+      orders = inMemoryOrders.sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
     }
     return NextResponse.json({ success: true, orders });
   } catch (error: unknown) {
