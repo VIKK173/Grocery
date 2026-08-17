@@ -103,7 +103,7 @@ export default function OrdersPage() {
     <div className="min-h-screen bg-gray-50 font-sans">
       <Sidebar isOpen={sidebarOpen} onClose={() => setSidebarOpen(false)} />
       
-      <div className="lg:ml-64">
+      <div className="lg:ml-64 transition-all duration-300">
         <Navbar onMenuClick={() => setSidebarOpen(true)} />
         
         <main className="p-6 lg:p-8">
