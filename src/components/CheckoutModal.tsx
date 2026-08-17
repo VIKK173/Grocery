@@ -85,6 +85,7 @@ export default function CheckoutModal() {
         discount,
         total: finalTotal,
         userId: user?.userId || 'guest',
+        userEmail: user?.email || form.email || 'guest@email.com',
       };
 
       const res = await fetch('/api/orders', {

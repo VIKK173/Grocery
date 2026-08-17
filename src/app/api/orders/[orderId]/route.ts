@@ -2,6 +2,20 @@ import { NextResponse } from 'next/server';
 import dbConnect from '@/lib/mongodb';
 import Order from '@/models/Order';
 
+// Access global in-memory storage from main orders route
+const getInMemoryOrders = () => {
+  if (typeof global !== 'undefined') {
+    return (global as any).inMemoryOrders || [];
+  }
+  return [];
+};
+
+const setInMemoryOrders = (orders: any[]) => {
+  if (typeof global !== 'undefined') {
+    (global as any).inMemoryOrders = orders;
+  }
+};
+
 export async function PATCH(
   req: globalThis.Request,
   { params }: { params: { orderId: string } }
@@ -17,53 +31,63 @@ export async function PATCH(
           mongoAvailable = true;
         }
       } catch (mongoError) {
-        console.warn('MongoDB connection failed:', mongoError);
+        console.warn('MongoDB connection failed, using in-memory:', mongoError);
         mongoAvailable = false;
       }
     }
 
-    if (!mongoAvailable) {
-      return NextResponse.json({ 
-        success: false, 
-        error: 'Database not available' 
-      }, { status: 503 });
-    }
-
     const body = await req.json();
-    const { status } = body;
+    const { status, assignedWorker } = body;
 
-    if (!status) {
+    const updateData: any = { updatedAt: new Date() };
+    if (status) updateData.status = status;
+    if (assignedWorker !== undefined) updateData.assignedWorker = assignedWorker;
+
+    if (mongoAvailable) {
+      const validStatuses = ['pending', 'confirmed', 'preparing', 'out_for_delivery', 'delivered', 'cancelled'];
+      if (status && !validStatuses.includes(status)) {
+        return NextResponse.json({ 
+          success: false, 
+          error: 'Invalid status' 
+        }, { status: 400 });
+      }
+
+      const order = await Order.findOneAndUpdate(
+        { orderId: params.orderId },
+        updateData,
+        { new: true }
+      );
+
+      if (!order) {
+        return NextResponse.json({ 
+          success: false, 
+          error: 'Order not found' 
+        }, { status: 404 });
+      }
+
       return NextResponse.json({ 
-        success: false, 
-        error: 'Status is required' 
-      }, { status: 400 });
-    }
+        success: true, 
+        order 
+      });
+    } else {
+      // In-memory fallback
+      const orders = getInMemoryOrders();
+      const orderIndex = orders.findIndex(o => o.orderId === params.orderId);
+      if (orderIndex === -1) {
+        return NextResponse.json({ 
+          success: false, 
+          error: 'Order not found' 
+        }, { status: 404 });
+      }
 
-    const validStatuses = ['pending', 'confirmed', 'preparing', 'out_for_delivery', 'delivered', 'cancelled'];
-    if (!validStatuses.includes(status)) {
+      orders[orderIndex] = { ...orders[orderIndex], ...updateData };
+      setInMemoryOrders(orders);
+
       return NextResponse.json({ 
-        success: false, 
-        error: 'Invalid status' 
-      }, { status: 400 });
+        success: true, 
+        order: orders[orderIndex] 
+      });
     }
-
-    const order = await Order.findOneAndUpdate(
-      { orderId: params.orderId },
-      { status, updatedAt: new Date() },
-      { new: true }
-    );
-
-    if (!order) {
-      return NextResponse.json({ 
-        success: false, 
-        error: 'Order not found' 
-      }, { status: 404 });
-    }
-
-    return NextResponse.json({ 
-      success: true, 
-      order 
-    });
   } catch (error: unknown) {
     const message = error instanceof Error ? error.message : 'Failed to update order';
     return NextResponse.json({ success: false, error: message }, { status: 500 });

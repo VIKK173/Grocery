@@ -1,7 +1,7 @@
 'use client';
 
 import { motion, AnimatePresence } from 'framer-motion';
-import { X, User, Mail, ShoppingBag, Calendar, Package, CheckCircle, Clock, Leaf, LogOut } from 'lucide-react';
+import { X, User, Mail, ShoppingBag, Calendar, Package, CheckCircle, Clock, Leaf, LogOut, Truck, MapPin, Navigation } from 'lucide-react';
 import { useStore, type Order } from '@/lib/store';
 
 export default function ProfileModal() {
@@ -44,6 +44,24 @@ export default function ProfileModal() {
       default:
         return status;
     }
+  };
+
+  const getTrackingSteps = (status: string) => {
+    const steps = [
+      { key: 'confirmed', label: 'Order Confirmed', icon: CheckCircle },
+      { key: 'preparing', label: 'Preparing', icon: Package },
+      { key: 'out_for_delivery', label: 'Out for Delivery', icon: Truck },
+      { key: 'delivered', label: 'Delivered', icon: CheckCircle },
+    ];
+
+    const statusOrder = ['confirmed', 'preparing', 'out_for_delivery', 'delivered'];
+    const currentIndex = statusOrder.indexOf(status);
+
+    return steps.map((step, index) => ({
+      ...step,
+      completed: index <= currentIndex,
+      current: index === currentIndex,
+    }));
   };
 
   if (!isProfileOpen) return null;
@@ -207,6 +225,47 @@ export default function ProfileModal() {
                         <div className="flex items-center gap-2 text-xs text-orange-600 bg-orange-50 rounded-lg px-3 py-2">
                           <Clock className="w-3.5 h-3.5" />
                           <span>Estimated: {order.estimatedDelivery}</span>
+                        </div>
+                      )}
+
+                      {/* Order Tracking */}
+                      {order.status !== 'cancelled' && (
+                        <div className="mt-4 pt-4 border-t border-gray-200">
+                          <div className="flex items-center gap-2 text-sm font-semibold text-gray-700 mb-3">
+                            <Navigation className="w-4 h-4" />
+                            <span>Live Tracking</span>
+                          </div>
+                          <div className="space-y-3">
+                            {getTrackingSteps(order.status).map((step, index) => (
+                              <div key={step.key} className="flex items-center gap-3">
+                                <div className={`w-8 h-8 rounded-full flex items-center justify-center ${
+                                  step.completed 
+                                    ? 'bg-green-500 text-white' 
+                                    : step.current 
+                                      ? 'bg-blue-500 text-white animate-pulse' 
+                                      : 'bg-gray-200 text-gray-400'
+                                }`}>
+                                  <step.icon className="w-4 h-4" />
+                                </div>
+                                <div className="flex-1">
+                                  <p className={`text-sm font-medium ${
+                                    step.completed ? 'text-green-700' : 
+                                    step.current ? 'text-blue-700' : 'text-gray-400'
+                                  }`}>
+                                    {step.label}
+                                  </p>
+                                  {step.current && (
+                                    <p className="text-xs text-gray-500">In Progress</p>
+                                  )}
+                                </div>
+                                {index < 3 && (
+                                  <div className={`w-8 h-0.5 ${
+                                    step.completed ? 'bg-green-500' : 'bg-gray-200'
+                                  }`} />
+                                )}
+                              </div>
+                            ))}
+                          </div>
                         </div>
                       )}
                     </motion.div>

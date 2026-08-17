@@ -1,0 +1,48 @@
+'use client';
+
+import { useEffect } from 'react';
+import { useRouter } from 'next/navigation';
+import Sidebar from '@/components/admin/Sidebar';
+import Navbar from '@/components/admin/Navbar';
+import { useState } from 'react';
+
+export default function CustomersPage() {
+  const router = useRouter();
+  const [sidebarOpen, setSidebarOpen] = useState(false);
+
+  useEffect(() => {
+    const auth = localStorage.getItem('adminAuth');
+    if (auth !== 'true') {
+      router.push('/admin/login');
+    }
+  }, [router]);
+
+  return (
+    <div className="min-h-screen bg-gray-50 font-sans">
+      <Sidebar isOpen={sidebarOpen} onClose={() => setSidebarOpen(false)} />
+      
+      <div className="lg:ml-64">
+        <Navbar onMenuClick={() => setSidebarOpen(true)} />
+        
+        <main className="p-6 lg:p-8">
+          <div className="mb-8">
+            <h1 className="text-2xl font-bold text-gray-900 mb-2">Customers</h1>
+            <p className="text-gray-500">View and manage customer accounts and information.</p>
+          </div>
+
+          <div className="bg-white rounded-2xl border border-gray-100 shadow-sm p-12 text-center">
+            <div className="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4">
+              <span className="text-3xl">👥</span>
+            </div>
+            <h2 className="text-lg font-semibold text-gray-900 mb-2">Customers Management</h2>
+            <p className="text-gray-500 mb-6">This feature is coming soon. You'll be able to manage customer accounts here.</p>
+            <div className="inline-flex items-center gap-2 text-sm text-gray-400">
+              <span className="w-2 h-2 bg-yellow-400 rounded-full animate-pulse" />
+              Under Development
+            </div>
+          </div>
+        </main>
+      </div>
+    </div>
+  );
+}

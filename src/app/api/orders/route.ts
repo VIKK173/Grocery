@@ -5,6 +5,11 @@ import Order from '@/models/Order';
 // In-memory storage for testing when MongoDB is not available
 let inMemoryOrders: any[] = [];
 
+// Global access for the orderId route
+if (typeof global !== 'undefined') {
+  (global as any).inMemoryOrders = inMemoryOrders;
+}
+
 export async function POST(req: globalThis.Request) {
   try {
     const hasMongo = !!process.env.MONGODB_URI;
@@ -23,7 +28,7 @@ export async function POST(req: globalThis.Request) {
     }
 
     const body = await req.json();
-    const { items, address, paymentMethod, subtotal, deliveryFee, discount, total, userId } = body;
+    const { items, address, paymentMethod, subtotal, deliveryFee, discount, total, userId, userEmail, assignedWorker } = body;
 
     // Validate required fields
     if (!items || items.length === 0) {
@@ -57,6 +62,8 @@ export async function POST(req: globalThis.Request) {
       order = await Order.create({
         orderId,
         userId: userId || 'guest',
+        userEmail: userEmail || 'guest@email.com',
+        assignedWorker: assignedWorker || null,
         items: items.map((item: Record<string, unknown>) => ({
           productId: item._id || item.productId,
           name: item.name,
@@ -78,6 +85,8 @@ export async function POST(req: globalThis.Request) {
       order = {
         orderId,
         userId: userId || 'guest',
+        userEmail: userEmail || 'guest@email.com',
+        assignedWorker: assignedWorker || null,
         status: 'confirmed',
         estimatedDelivery,
         total,
@@ -139,18 +148,23 @@ export async function GET(req: globalThis.Request) {
     const userId = searchParams.get('userId');
     const orderId = searchParams.get('orderId');
     const admin = searchParams.get('admin');
+    const worker = searchParams.get('worker');
 
     let query: Record<string, any> = {};
     if (userId) query.userId = userId;
     if (orderId) query.orderId = orderId;
-    // If admin=true, return all orders without userId filter
+    if (worker) query.assignedWorker = worker;
 
     let orders: any[] = [];
     if (mongoAvailable) {
       orders = await Order.find(query).sort({ createdAt: -1 }).limit(100);
     } else {
-      // Return in-memory orders
-      orders = inMemoryOrders.sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
+      // Return in-memory orders with worker filter
+      let filteredOrders = inMemoryOrders;
+      if (worker) {
+        filteredOrders = inMemoryOrders.filter(o => o.assignedWorker === worker);
+      }
+      orders = filteredOrders.sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
     }
     return NextResponse.json({ success: true, orders });
   } catch (error: unknown) {
